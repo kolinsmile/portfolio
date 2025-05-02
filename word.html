@@ -255,14 +255,20 @@
 
         /* Keyboard Layout */
         .keyboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(40px, 1fr)); /* Responsive columns */
-            gap: 8px; /* Gap between buttons */
+            display: flex; /* Use flexbox for rows */
+            flex-direction: column; /* Stack rows vertically */
+            gap: 8px; /* Gap between rows */
             margin-bottom: 1.5rem; /* Space below keyboard */
             width: 100%; /* Take full width */
             max-width: 400px; /* Limit max width */
             margin-left: auto;
             margin-right: auto; /* Center the keyboard */
+        }
+
+        .keyboard-row {
+            display: flex; /* Use flexbox for buttons in a row */
+            justify-content: center; /* Center buttons horizontally */
+            gap: 8px; /* Gap between buttons */
         }
 
         .keyboard-button {
@@ -279,6 +285,8 @@
                         -4px -4px 8px #272727;
             color: #00ff8c; /* Vibrant green text color */
             text-transform: uppercase; /* Uppercase letters */
+            flex-grow: 1; /* Allow buttons to grow */
+            flex-basis: 0; /* Allow buttons to shrink */
         }
 
         .keyboard-button:hover {
@@ -518,8 +526,9 @@
              width: 2.5rem; /* Set a fixed size for better touch target */
              height: 2.5rem;
              border-radius: 50%; /* Make it round */
+             /* Applying dark neumorphic shadow */
              box-shadow: 3px 3px 7px #0d0d0d,
-                        -3px -3px 7px #272727; /* Dark neumorphic shadow */
+                        -3px -3px 7px #272727;
          }
 
          .theme-toggle-button:hover {
@@ -971,18 +980,27 @@
         }
 
 
-        // Function to create the keyboard buttons
+        // Function to create the keyboard buttons in QWERTY layout
         function createKeyboard() {
-            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const rows = [
+                'QWERTYUIOP',
+                'ASDFGHJKL',
+                'ZXCVBNM'
+            ];
             keyboard.innerHTML = ''; // Clear existing buttons
 
-            for (let i = 0; i < letters.length; i++) {
-                const button = document.createElement('button');
-                button.classList.add('keyboard-button');
-                button.textContent = letters[i];
-                button.addEventListener('click', handleLetterClick);
-                keyboard.appendChild(button);
-            }
+            rows.forEach(rowLetters => {
+                const rowDiv = document.createElement('div');
+                rowDiv.classList.add('keyboard-row'); // Add class for row styling
+                for (let i = 0; i < rowLetters.length; i++) {
+                    const button = document.createElement('button');
+                    button.classList.add('keyboard-button');
+                    button.textContent = rowLetters[i];
+                    button.addEventListener('click', handleLetterClick);
+                    rowDiv.appendChild(button);
+                }
+                keyboard.appendChild(rowDiv); // Append the row to the keyboard container
+            });
         }
 
         // Function to handle a letter button click

@@ -142,6 +142,19 @@
                 flex-direction: row; /* Row layout on medium screens and up */
                 text-align: left;
             }
+
+            /* Limit the size of the hero image container on larger screens */
+            .hero-image {
+                flex: none; /* Prevent it from growing */
+                max-width: 400px; /* Set a maximum width for the image container */
+                /* Ensure the image within still takes up 100% of this limited container */
+            }
+
+            /* Adjust the text container to take available space */
+            .hero-text {
+                flex: 1;
+                min-width: 0; /* Allow text to shrink if needed */
+            }
         }
 
         .hero-text {

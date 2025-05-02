@@ -94,6 +94,12 @@
             50% { color: #cccccc; } /* Slightly darker light text */
         }
 
+        /* Image hover animation */
+        @keyframes image-scale-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
 
         .animate-fadeIn {
             animation: fadeIn 0.8s ease-out forwards;
@@ -179,6 +185,30 @@
             color: #a0aec0; /* Adjusted color for dark mode */
             margin-bottom: 30px;
         }
+
+        /* Apply neumorphic border and animation to the hero image container */
+        .hero-image {
+            border-radius: 20px; /* Match neumorphic border radius */
+            background: #1a1a1a; /* Match dark background */
+            box-shadow: 6px 6px 12px #0d0d0d,
+                        -6px -6px 12px #272727;
+            padding: 15px; /* Add padding to create the border effect */
+            transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth transition for hover effects */
+        }
+
+        .hero-image:hover {
+            animation: image-scale-pulse 1.5s infinite alternate; /* Apply animation on hover */
+            box-shadow: 8px 8px 16px #0d0d0d,
+                        -8px -8px 16px #272727; /* Slightly more prominent shadow on hover */
+        }
+
+        .hero-image img {
+            max-width: 100%; /* Ensure image is responsive within its container */
+            height: auto;
+            border-radius: 10px; /* Slightly smaller border-radius for the image inside */
+            display: block; /* Remove extra space below the image */
+        }
+
 
         /* Brands Section Styles (Removed) */
         /* .brands-section { ... } */

@@ -486,12 +486,12 @@
             gap: 8px; /* Space between icon and text */
         }
 
-        /* Responsive adjustments for header on small screens */
+        /* Responsive adjustments for header on small screens (up to 767px) */
         @media (max-width: 767px) {
             header {
-                flex-direction: row; /* Keep items in a row */
-                justify-content: space-between; /* Space out logo and nav/toggle */
-                align-items: center; /* Vertically align items in the middle */
+                flex-direction: column; /* Stack logo and nav vertically */
+                justify-content: center; /* Center items vertically */
+                align-items: center; /* Center items horizontally */
                 padding: 1rem; /* Add some padding around header content */
                 flex-wrap: wrap; /* Allow header items to wrap if needed */
             }
@@ -505,39 +505,46 @@
 
             header nav {
                 margin-bottom: 0; /* Remove bottom margin from nav */
-                /* Make nav a flex container to align its children */
-                 display: flex;
-                 align-items: center;
-                 flex-grow: 1; /* Allow nav to take up available space */
-                 justify-content: flex-end; /* Push nav contents to the right */
-                 min-width: 0; /* Allow nav to shrink below its content size */
-                 flex-wrap: wrap; /* Allow nav contents (ul and toggle) to wrap */
+                display: flex;
+                flex-direction: row; /* Keep ul and theme toggle in a row */
+                align-items: center; /* Vertically align ul and theme toggle */
+                flex-grow: 1;
+                justify-content: center; /* Center nav contents horizontally */
+                min-width: 0;
+                flex-wrap: wrap; /* Allow ul and theme toggle to wrap */
+                width: 100%;
+                gap: 10px; /* Add gap between ul and theme toggle */
             }
 
             header nav ul {
-                justify-content: flex-end; /* Align nav links to the right */
-                flex-wrap: wrap; /* Allow nav links to wrap */
+                display: flex;
+                justify-content: center; /* Center buttons horizontally */
+                flex-wrap: wrap;
                 gap: 10px; /* Smaller gap for wrapped links */
-                margin-right: 15px; /* Increased space between nav ul and toggle */
-                 min-width: 0; /* Allow ul to shrink */
-                 flex-shrink: 0; /* Prevent nav ul from shrinking */
-                 margin-bottom: 10px; /* Add space below nav links when they wrap */
+                margin-right: 0; /* Remove right margin */
+                min-width: 0;
+                flex-shrink: 0;
+                margin-bottom: 0; /* Remove bottom margin */
+                 /* width: 100%; Removed this to allow wrapping side-by-side */
             }
 
             header nav ul li {
-                 margin-bottom: 0; /* Remove bottom margin from nav links */
+                 margin-bottom: 0;
+                 flex-basis: auto;
+                 width: auto;
             }
 
             #theme-toggle {
-                margin-top: 0; /* Remove top margin */
-                margin-left: 15px; /* Added left margin */
-                 flex-shrink: 0; /* Prevent theme toggle from shrinking */
-                 margin-bottom: 10px; /* Align bottom margin with nav ul */
+                margin-top: 0;
+                margin-left: 0;
+                 flex-shrink: 0;
+                 margin-bottom: 0;
+                 /* width: 100%; Removed this to allow wrapping side-by-side */
             }
 
             /* Hide custom cursor and particles on small screens */
             .custom-cursor, .cursor-particle {
-                display: none !important; /* Use !important to ensure override */
+                display: none !important;
             }
 
             /* Hide courses section on small screens */
@@ -545,6 +552,66 @@
                 display: none;
             }
         }
+
+        /* Styles for very small screens (up to 383px) */
+        @media (max-width: 383px) {
+             header .text-2xl.font-bold {
+                 font-size: 1.8rem; /* Slightly reduce font size */
+             }
+
+             header nav ul {
+                 gap: 8px; /* Reduce gap between buttons */
+             }
+
+             header nav ul li .neumorphic-button {
+                 padding: 8px 15px; /* Reduce button padding */
+                 font-size: 0.9rem; /* Reduce button font size */
+             }
+
+             #theme-toggle {
+                 width: 35px; /* Reduce theme toggle size */
+                 height: 35px;
+                 font-size: 1rem; /* Reduce theme toggle icon size */
+             }
+
+             /* Adjust padding on the header itself */
+             header {
+                 padding: 0.8rem;
+             }
+
+             /* Adjust padding on the main content container */
+             .main-content-container {
+                 padding: 0 10px;
+             }
+
+             /* Further reduce padding on neumorphic sections if needed */
+             .neumorphic {
+                 padding: 20px;
+             }
+
+             /* Adjust font size in hero section if needed */
+             .hero-text h1 {
+                 font-size: 2.5rem;
+             }
+
+             .hero-text p {
+                 font-size: 1rem;
+             }
+
+             /* Adjust statistics box padding if needed */
+             #statistics .section-content .neumorphic {
+                 padding: 15px;
+             }
+
+             #statistics .section-content .neumorphic .text-4xl {
+                 font-size: 3rem;
+             }
+
+             #statistics .section-content .neumorphic .text-lg {
+                 font-size: 0.9rem;
+             }
+        }
+
 
         /* Styles for header on medium and larger screens */
         @media (min-width: 768px) {

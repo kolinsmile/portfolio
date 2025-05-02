@@ -111,7 +111,7 @@
          body.dark-mode .neumorphic-button.orange {
              background: #ff8c00; /* Orange background */
              box-shadow: 4px 4px 8px #cc7000,
-                         -4px -4px 8px #ffaa00;
+                         -4px -4px 8px #272727;
              color: #1a1a1a; /* Dark text for contrast */
          }
 
@@ -168,8 +168,8 @@
          }
 
           body.dark-mode #theme-toggle:active {
-             box-shadow: inset 3px 3px 6px #0d0d0d,
-                         inset -3px -3px 6px #272727;
+            box-shadow: inset 2px 2px 4px #0d0d0d,
+                         inset -2px -2px 4px #272727;
          }
 
 
@@ -227,8 +227,14 @@
             margin-bottom: 20px;
         }
 
+        /* Style for the span within the h1 (AI Engineer) */
         .hero-text h1 span {
-            color: #00ff8c; /* Vibrant green for highlighted text */
+            color: #3498db; /* A standard blue for light mode */
+        }
+
+        /* Dark mode color for the span */
+        body.dark-mode .hero-text h1 span {
+            color: #00ff8c; /* Vibrant green for dark mode */
         }
 
 
@@ -459,7 +465,122 @@
              text-align: center; /* Ensure text is centered within the grid items */
         }
 
+        /* Style for icon and text alignment in statistics boxes */
+        #statistics .section-content .neumorphic .text-lg {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center text and icon together */
+            gap: 8px; /* Space between icon and text */
+        }
 
+        /* Responsive adjustments for header on small screens */
+        @media (max-width: 767px) {
+            header {
+                flex-direction: row; /* Keep items in a row */
+                justify-content: space-between; /* Space out logo and nav/toggle */
+                align-items: center; /* Vertically align items in the middle */
+                padding: 1rem; /* Add some padding around header content */
+                flex-wrap: wrap; /* Allow header items to wrap if needed */
+            }
+
+            header .mb-4.md\:mb-0 {
+                 margin-bottom: 20px; /* Increased bottom margin */
+                 flex-shrink: 0; /* Prevent logo from shrinking */
+                 padding-left: 10px; /* Added left padding */
+                 padding-right: 10px; /* Added right padding */
+            }
+
+            header nav {
+                margin-bottom: 0; /* Remove bottom margin from nav */
+                /* Make nav a flex container to align its children */
+                 display: flex;
+                 align-items: center;
+                 flex-grow: 1; /* Allow nav to take up available space */
+                 justify-content: flex-end; /* Push nav contents to the right */
+                 min-width: 0; /* Allow nav to shrink below its content size */
+                 flex-wrap: wrap; /* Allow nav contents (ul and toggle) to wrap */
+            }
+
+            header nav ul {
+                justify-content: flex-end; /* Align nav links to the right */
+                flex-wrap: wrap; /* Allow nav links to wrap */
+                gap: 10px; /* Smaller gap for wrapped links */
+                margin-right: 15px; /* Increased space between nav ul and toggle */
+                 min-width: 0; /* Allow ul to shrink */
+                 flex-shrink: 0; /* Prevent nav ul from shrinking */
+                 margin-bottom: 10px; /* Add space below nav links when they wrap */
+            }
+
+            header nav ul li {
+                 margin-bottom: 0; /* Remove bottom margin from nav links */
+            }
+
+            #theme-toggle {
+                margin-top: 0; /* Remove top margin */
+                margin-left: 15px; /* Added left margin */
+                 flex-shrink: 0; /* Prevent theme toggle from shrinking */
+                 margin-bottom: 10px; /* Align bottom margin with nav ul */
+            }
+
+            /* Hide custom cursor and particles on small screens */
+            .custom-cursor, .cursor-particle {
+                display: none !important; /* Use !important to ensure override */
+            }
+
+            /* Hide courses section on small screens */
+            #courses {
+                display: none;
+            }
+        }
+
+        /* Styles for header on medium and larger screens */
+        @media (min-width: 768px) {
+             header {
+                 /* Ensure header is a flex container */
+                 display: flex;
+                 flex-direction: row; /* Items in a row */
+                 justify-content: space-between; /* Space out logo and nav/toggle */
+                 align-items: center; /* Vertically align items */
+             }
+
+             header nav {
+                 display: flex; /* Make nav a flex container */
+                 align-items: center; /* Vertically align nav items */
+                 flex-grow: 1; /* Allow nav to grow and take space */
+                 justify-content: flex-end; /* Push nav contents to the right */
+                 gap: 2rem; /* Add gap between nav ul and theme toggle */
+             }
+
+             header nav ul {
+                 display: flex; /* Make ul a flex container */
+                 gap: 1.5rem; /* Add space between nav links */
+                 margin-bottom: 0; /* Remove potential bottom margin */
+             }
+
+             #theme-toggle {
+                 margin-left: 0; /* Remove potential left margin */
+             }
+
+             /* Show courses section on medium screens and up */
+             #courses {
+                 display: block; /* Or display: flex; depending on internal layout */
+             }
+        }
+
+        /* Added mobile-specific styles for the contact buttons container */
+        #contact .section-content > div {
+            display: flex; /* Use flexbox for the buttons */
+            flex-wrap: wrap; /* Allow buttons to wrap to the next line */
+            gap: 10px; /* Add space between buttons */
+            justify-content: center; /* Center buttons when they wrap */
+        }
+
+        /* Added mobile-specific styles for individual contact buttons */
+        #contact .section-content a.neumorphic-button {
+            flex-grow: 1; /* Allow buttons to grow to fill space */
+            flex-basis: 0; /* Allow buttons to shrink */
+            min-width: 100px; /* Minimum width for buttons before wrapping */
+        }
     </style>
 </head>
 <body>
@@ -468,14 +589,13 @@
 
     <header class="container mx-auto my-8 p-6 flex flex-col md:flex-row justify-between items-center">
         <div class="mb-4 md:mb-0 text-2xl font-bold">Asef Salehi</div>
-        <nav class="mb-4 md:mb-0">
-            <ul class="flex space-x-6">
+        <nav class="mb-4 md:mb-0 flex items-center"> <ul class="flex space-x-6 md:space-x-6">
                 <li><a href="#" class="hover:underline">Home</a></li>
                 <li><a href="#about" class="hover:underline">About Us</a></li>
-                <li><a href="#contact" class="neumorphic-button orange">Contact Us</a></li> </ul>
+                <li class="hidden md:block"><a href="#courses" class="hover:underline">Courses</a></li> <li><a href="#contact" class="neumorphic-button orange">Contact Us</a></li> </ul>
+             <button id="theme-toggle" class="neumorphic-button" aria-label="Toggle Theme">
+                 ☀️ </button>
         </nav>
-        <button id="theme-toggle" class="neumorphic-button" aria-label="Toggle Theme">
-            ☀️ </button>
     </header>
 
     <div class="main-content-container">
@@ -520,20 +640,28 @@
                  <div class="section-content">
                      <div class="neumorphic p-6">
                          <div class="text-4xl font-bold">6+</div>
-                         <div class="text-lg">Months Experience</div>
+                         <div class="text-lg"><i class="fas fa-clock mr-2"></i>Months Experience</div>
                      </div>
                      <div class="neumorphic p-6">
                          <div class="text-4xl font-bold">Growing</div>
-                         <div class="text-lg">Growing</div>
+                         <div class="text-lg"><i class="fas fa-chart-line mr-2"></i>Growing</div>
                      </div>
                       </div>
              </section>
+
+             <section id="courses" class="neumorphic section-hidden">
+                 <h2 class="section-title"><i class="fas fa-graduation-cap"></i> Courses</h2>
+                 <div class="section-content">
+                     <p>Details about your courses will go here. This section is only visible on larger screens.</p>
+                     </div>
+             </section>
+
 
              <section id="contact" class="neumorphic section-hidden">
                 <h2 class="section-title"><i class="fas fa-envelope-open-text"></i> Contact</h2>
                 <div class="section-content">
                      <p class="text-base md:text-lg mb-6">Feel free to reach out to me!</p>
-                     <p class="text-base md:text-lg mb-6">Email: m.asf.salehi@gmail.com</p> <div class="flex flex-col md:flex-row gap-4">
+                     <div class="flex flex-col md:flex-row gap-4">
                         <a href="mailto:m.asf.salehi@gmail.com" class="neumorphic-button">Email Me</a>
                         <a href="https://github.com/AsefSalehi" target="_blank" class="neumorphic-button">GitHub</a>
                         <a href="https://linkedin.com/in/asef-salehi" target="_blank" class="neumorphic-button">LinkedIn</a>
@@ -613,32 +741,72 @@
             let animationFrameId = null;
             let particleIntervalId = null; // To store the particle creation interval ID
 
+            // Function to check if it's a mobile device (based on screen width)
+            function isMobile() {
+                return window.innerWidth < 768; // Tailwind's md breakpoint
+            }
+
+            // Function to start the cursor animation and particle creation
+            function startCursorAnimation() {
+                 // Only start if not on mobile
+                 if (!isMobile()) {
+                     if (!animationFrameId) {
+                         animateCursor();
+                     }
+                     if (!particleIntervalId) {
+                          particleIntervalId = setInterval(createParticle, 30);
+                     }
+                     if (customCursor) {
+                         customCursor.style.opacity = 1;
+                         document.body.classList.add('custom-cursor-enabled');
+                     }
+                 }
+            }
+
+            // Function to stop the cursor animation and particle creation
+            function stopCursorAnimation() {
+                 if (animationFrameId) {
+                     cancelAnimationFrame(animationFrameId);
+                     animationFrameId = null;
+                 }
+                 if (particleIntervalId) {
+                     clearInterval(particleIntervalId);
+                     particleIntervalId = null;
+                 }
+                 if (customCursor) {
+                     customCursor.style.opacity = 0;
+                     document.body.classList.remove('custom-cursor-enabled');
+                 }
+                 // Remove any existing particles
+                 document.querySelectorAll('.cursor-particle').forEach(particle => particle.remove());
+            }
+
+
             // Update mouse position
             document.addEventListener('mousemove', (e) => {
+                if (isMobile()) {
+                    // If on mobile, stop and don't update cursor position
+                    stopCursorAnimation();
+                    return;
+                }
+
                 mouseX = e.clientX;
                 mouseY = e.clientY;
 
-                // Initialize cursor position on the very first mouse move
+                // Initialize cursor position on the very first mouse move (only on non-mobile)
                 if (cursorX === 0 && cursorY === 0) {
                     cursorX = mouseX;
                     cursorY = mouseY;
                      if (customCursor) {
                          customCursor.style.left = `${mouseX}px`;
                          customCursor.style.top = `${mouseY}px`;
-                         customCursor.style.opacity = 1; // Make cursor visible
-                         document.body.classList.add('custom-cursor-enabled'); // Hide default cursor
                      }
                 }
 
-                // Start the cursor animation loop if it's not already running
-                if (!animationFrameId) {
-                    animateCursor();
+                // Start the cursor animation loop and particle creation if not running and not mobile
+                if (!animationFrameId && !isMobile()) {
+                    startCursorAnimation();
                 }
-
-                 // Start the particle creation interval if it's not already running
-                 if (!particleIntervalId) {
-                     particleIntervalId = setInterval(createParticle, 30); // Create a particle every 30ms
-                 }
 
             });
 
@@ -658,6 +826,11 @@
 
             // Function to create a particle element
             function createParticle() {
+                 // Only create particles if not on mobile
+                if (isMobile()) {
+                    return;
+                }
+
                 const particle = document.createElement('div');
                 particle.classList.add('cursor-particle');
                 document.body.appendChild(particle);
@@ -683,51 +856,60 @@
             }
 
 
-            // Add interactive class on hover
+            // Add interactive class on hover (only on non-mobile)
             interactiveElements.forEach(element => {
                 element.addEventListener('mouseenter', () => {
-                    if (customCursor) {
+                    if (customCursor && !isMobile()) {
                         customCursor.classList.add('interactive');
                     }
                 });
                 element.addEventListener('mouseleave', () => {
-                     if (customCursor) {
+                     if (customCursor && !isMobile()) {
                         customCursor.classList.remove('interactive');
                      }
                 });
             });
 
-            // Hide custom cursor when mouse leaves the document
+            // Hide custom cursor when mouse leaves the document (only relevant on non-mobile)
             document.addEventListener('mouseleave', () => {
-                 if (customCursor) {
+                 if (customCursor && !isMobile()) {
                      customCursor.style.opacity = 0;
                      document.body.classList.remove('custom-cursor-enabled'); // Show default cursor
                  }
-                 // Stop the animation loop and particle creation when mouse leaves
-                 if (animationFrameId) {
-                     cancelAnimationFrame(animationFrameId);
-                     animationFrameId = null;
-                 }
-                 if (particleIntervalId) {
-                     clearInterval(particleIntervalId);
-                     particleIntervalId = null;
+                 // Stop the animation loop and particle creation when mouse leaves (on non-mobile)
+                 if (!isMobile()) {
+                     stopCursorAnimation();
                  }
             });
 
-            // Show custom cursor when mouse enters the document
+            // Show custom cursor when mouse enters the document (only relevant on non-mobile)
              document.addEventListener('mouseenter', () => {
-                 if (customCursor) {
+                 if (customCursor && !isMobile()) {
                      customCursor.style.opacity = 1;
                      document.body.classList.add('custom-cursor-enabled'); // Hide default cursor
-                     // Restart the animation loop and particle creation when mouse enters
-                     if (!animationFrameId) {
-                         animateCursor();
-                     }
-                     if (!particleIntervalId) {
-                          particleIntervalId = setInterval(createParticle, 30);
+                     // Restart the animation loop and particle creation when mouse enters (on non-mobile)
+                     if (!animationFrameId && !isMobile()) {
+                         startCursorAnimation();
                      }
                  }
              });
+
+             // Handle initial state and window resize
+             function handleResize() {
+                 if (isMobile()) {
+                     stopCursorAnimation();
+                 } else {
+                     // Restart animation if needed when resizing from mobile to desktop
+                     startCursorAnimation();
+                 }
+             }
+
+             // Check initial state on load
+             handleResize();
+
+             // Add event listener for window resize
+             window.addEventListener('resize', handleResize);
+
         });
     </script>
 

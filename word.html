@@ -301,6 +301,24 @@
              color: #ffffff; /* Lighter color when pressed */
         }
 
+        /* Styles for used/guessed keys */
+        .keyboard-button.used {
+            background-color: #333; /* Slightly lighter dark */
+            color: #a0aec0; /* Grey out used letters */
+            box-shadow: inset 2px 2px 4px #0d0d0d,
+                        inset -2px -2px 4px #272727; /* Inset shadow */
+            cursor: default; /* Change cursor */
+        }
+
+        .keyboard-button.correct-guess {
+            background-color: #4ade80; /* Green for correct guesses */
+            color: #1a1a1a; /* Dark text for contrast */
+            box-shadow: inset 2px 2px 4px #333,
+                        inset -2px -2px 4px #666; /* Inset shadow */
+            cursor: default; /* Change cursor */
+        }
+
+
          .message {
              margin-top: 1.5rem; /* Increased spacing */
              font-size: 1.1em; /* Slightly larger font */
@@ -321,6 +339,23 @@
              font-size: 0.9em;
              font-weight: 400; /* Inter Regular */
              transition: color 0.3s ease; /* Smooth transition */
+             display: flex; /* Use flexbox to align icon and text */
+             align-items: center; /* Vertically align icon and text */
+             justify-content: center; /* Center icon and text */
+             gap: 5px; /* Space between icon and text */
+         }
+
+         .incorrect-guesses {
+             margin-top: 1rem;
+             font-size: 0.9em;
+             color: #a0aec0; /* Match portfolio adjusted color for dark mode */
+             min-height: 1.5em; /* Ensure space even when empty */
+             font-weight: 400; /* Inter Regular */
+             transition: color 0.3s ease; /* Smooth transition */
+             display: flex; /* Use flexbox to align icon and text */
+             align-items: center; /* Vertically align icon and text */
+             justify-content: center; /* Center icon and text */
+             gap: 5px; /* Space between icon and text */
          }
 
 
@@ -404,145 +439,6 @@
                         -1px -1px 3px #272727; /* Smaller shadow on hover */
          }
 
-         .theme-toggle-button:active {
-             box-shadow: inset 2px 2px 5px #0d0d0d,
-                        inset -2px -2px 5px #272727; /* Inset shadow on active */
-         }
-
-
-         /* Dark Mode Styles (More Realistic Black Theme) - Removed as base is now dark */
-         /*
-         body.dark-mode {
-             background-color: #181818;
-         }
-         */
-
-         /* Adjust dark mode classes to apply styles when body has dark-mode (which is the base now) */
-         body.dark-mode .welcome-text {
-             color: #cccccc; /* Base color */
-         }
-
-         body.dark-mode .game-info-container,
-         body.dark-mode .game-keyboard-container {
-             background-color: #1a1a1a; /* Base color */
-             box-shadow: 6px 6px 12px #0d0d0d,
-                        -6px -6px 12px #272727; /* Base shadow */
-         }
-
-         body.dark-mode h1 {
-             color: #f0f0f0; /* Base color */
-         }
-
-         body.dark-mode p {
-             color: #cccccc; /* Base color */
-         }
-
-         body.dark-mode .word-display {
-             background-color: #1a1a1a; /* Base color */
-             color: #00ff8c; /* Base color */
-             box-shadow: inset 4px 4px 8px #0d0d0d,
-                        inset -4px -4px 8px #272727; /* Base inset shadow */
-         }
-
-         body.dark-mode .keyboard-button {
-             background-color: #1a1a1a; /* Base color */
-             color: #00ff8c; /* Base color */
-             box-shadow: 4px 4px 8px #0d0d0d,
-                        -4px -4px 8px #272727; /* Base shadow */
-         }
-
-         body.dark-mode .keyboard-button:hover {
-             box-shadow: 2px 2px 4px #0d0d0d,
-                        -2px -2px 4px #272727; /* Base hover shadow */
-             color: #f0f0f0; /* Base hover color */
-         }
-
-         body.dark-mode .keyboard-button:active {
-              box-shadow: inset 2px 2px 4px #0d0d0d,
-                        inset -2px -2px 4px #272727; /* Base active shadow */
-              color: #ffffff; /* Lighter color when pressed */
-         }
-
-
-         .dark-mode .message {
-             /* Message colors remain the same for consistency (green/orange/red) */
-         }
-
-         body.dark-mode .attempts-display,
-         body.dark-mode .incorrect-guesses {
-             color: #a0aec0; /* Base color */
-         }
-
-         body.dark-mode .restart-button {
-            background-color: #1a1a1a; /* Base color */
-            color: #00ff8c; /* Base color */
-            box-shadow: 4px 4px 8px #0d0d0d,
-                        -4px -4px 8px #272727; /* Base shadow */
-         }
-         body.dark-mode .restart-button:hover {
-             background-color: #222; /* Base hover color */
-             box-shadow: 2px 2px 4px #0d0d0d,
-                        -2px -2px 4px #272727; /* Base hover shadow */
-         }
-         body.dark-mode .restart-button:active {
-             background-color: #333; /* Even lighter dark */
-              box-shadow: inset 2px 2px 4px #0d0d0d,
-                        inset -2px -5px 4px #272727; /* Inset shadow */
-         }
-
-          body.dark-mode .change-word-button {
-            background-color: #1a1a1a; /* Base color */
-            color: #00ff8c; /* Base color */
-            box-shadow: 4px 4px 8px #0d0d0d,
-                        -4px -4px 8px #272727; /* Base shadow */
-         }
-         body.dark-mode .change-word-button:hover {
-             background-color: #222; /* Slightly lighter dark */
-             box-shadow: 2px 2px 4px #0d0d0d,
-                        -2px -2px 4px #272727; /* Smaller shadow */
-         }
-         body.dark-mode .change-word-button:active {
-             background-color: #333; /* Even lighter dark */
-              box-shadow: inset 2px 2px 4px #0d0d0d,
-                        inset -2px -5px 4px #272727; /* Inset shadow */
-         }
-
-
-         /* Theme Toggle Button - Base styles are now the dark mode styles */
-         .theme-toggle-button {
-             position: absolute;
-             top: 1rem;
-             right: 1rem;
-             background-color: transparent;
-             border: none;
-             cursor: pointer;
-             font-size: 1.5em;
-             color: #cccccc; /* Default icon color (light) */
-             transition: color 0.3s ease;
-             z-index: 10; /* Ensure it's above other elements */
-             display: flex; /* Use flex to center icon */
-             align-items: center;
-             justify-content: center;
-             width: 2.5rem; /* Set a fixed size for better touch target */
-             height: 2.5rem;
-             border-radius: 50%; /* Make it round */
-             /* Applying dark neumorphic shadow */
-             box-shadow: 3px 3px 7px #0d0d0d,
-                        -3px -3px 7px #272727;
-         }
-
-         .theme-toggle-button:hover {
-             color: #f0f0f0; /* Darker color on hover */
-             box-shadow: 1px 1px 3px #0d0d0d,
-                        -1px -1px 3px #272727; /* Smaller shadow on hover */
-         }
-
-         .theme-toggle-button:active {
-             box-shadow: inset 2px 2px 5px #0d0d0d,
-                        inset -2px -2px 5px #272727; /* Inset shadow on active */
-         }
-
-         /* Styles for light mode when body does NOT have dark-mode class */
          body:not(.dark-mode) .theme-toggle-button {
              color: #475569; /* Default icon color (dark) */
              box-shadow: 3px 3px 7px #bebebe,
@@ -663,6 +559,10 @@
          .category-selection {
              margin-bottom: 1.5rem;
              text-align: center;
+             display: flex; /* Use flexbox to align icon and label/select */
+             align-items: center; /* Vertically align items */
+             justify-content: center; /* Center the content */
+             gap: 10px; /* Space between icon and label/select */
          }
 
          .category-selection label {
@@ -671,6 +571,9 @@
              color: #cccccc; /* Match portfolio paragraph color */
              margin-right: 0.5rem;
              transition: color 0.3s ease;
+             display: flex; /* Use flexbox for icon and text within label */
+             align-items: center; /* Vertically align icon and text */
+             gap: 5px; /* Space between icon and text */
          }
 
          .category-selection select {
@@ -815,10 +718,19 @@
                         -4px -4px 8px #272727;
             border-radius: 12px; /* Match button border radius */
             min-width: 160px; /* Minimum width for the dropdown */
-            z-index: 1; /* Ensure it appears above other content */
+            z-index: 10; /* Ensure it appears above other content */
             top: 100%; /* Position below the button */
             left: 0; /* Align to the left of the button */
             padding: 10px 0; /* Vertical padding */
+        }
+
+        .game-dropdown-content a {
+            color: #00ff8c; /* Vibrant green text */
+            padding: 10px 20px; /* Padding for dropdown links */
+            text-decoration: none;
+            display: block; /* Make links block elements */
+            text-align: left; /* Align text to the left */
+            transition: background-color 0.2s ease, color 0.2s ease;
         }
 
         .game-dropdown-content a:hover {
@@ -861,7 +773,8 @@
             <h1 class="text-xl sm:text-2xl font-bold">Guess the Word!</h1>
 
             <div class="category-selection">
-                <label for="categorySelect">Choose a Category:</label>
+                <label for="categorySelect">
+                    <i class="ph ph-folder text-lg"></i> </label>
                 <select id="categorySelect">
                     </select>
             </div>
@@ -875,8 +788,10 @@
 
 
             <p id="message" class="message text-base sm:text-lg"></p>
-            <p id="guesses" class="attempts-display text-sm sm:text-base"></p>
-            <p id="incorrectGuesses" class="incorrect-guesses"></p>
+            <p id="guesses" class="attempts-display text-sm sm:text-base">
+                <i class="fas fa-life-ring text-blue-500"></i> <span id="attemptsText"></span> </p>
+            <p id="incorrectGuesses" class="incorrect-guesses">
+                 <i class="fas fa-times text-gray-500"></i> <span id="incorrectLettersText"></span> </p>
 
             <button id="restartGame" class="restart-button hidden text-base sm:text-lg">Restart Game</button>
         </div>
@@ -911,6 +826,11 @@
         const keyboard = document.getElementById('keyboard'); // Reference to the keyboard container
         const categorySelect = document.getElementById('categorySelect'); // Reference to the category dropdown
         const changeWordButton = document.getElementById('changeWordButton'); // Reference to the Change Word button
+
+        // New elements for icon text
+        const attemptsTextSpan = document.getElementById('attemptsText');
+        const incorrectLettersTextSpan = document.getElementById('incorrectLettersText');
+
 
         // Game Play Dropdown functionality (Copied from index.html)
         const gamePlayButton = document.getElementById('gamePlayButton');
@@ -1005,19 +925,22 @@
 
         // Function to handle a letter button click
         function handleLetterClick(event) {
-            const guessedLetter = event.target.textContent; // Get the letter from the button
+            const clickedButton = event.target.closest('button'); // Ensure we get the button
+            if (!clickedButton || clickedButton.disabled) return; // Do nothing if not a button or disabled
+
+            const guessedLetter = clickedButton.textContent; // Get the letter from the button
 
             // Disable the clicked button immediately
-            event.target.disabled = true;
+            clickedButton.disabled = true;
 
-            handleGuess(guessedLetter); // Pass the guessed letter to the main guess handling function
+            handleGuess(guessedLetter, clickedButton); // Pass the guessed letter and the button to the main guess handling function
         }
 
 
         // Function to start a new game (resets everything)
         function startGame() {
-             if (currentCategoryWords.length === 0) {
-                 messageElement.textContent = "No words available for the selected category.";
+             if (allWordCategories.length === 0 || currentCategoryWords.length === 0) {
+                 messageElement.textContent = "Error: No word categories found or selected.";
                  messageElement.className = 'message text-base sm:text-lg text-red-600';
                  disableGame();
                  return;
@@ -1031,8 +954,10 @@
             // Reset the display
             wordDisplay.textContent = maskedWord.split('').join(' '); // Display with spaces
             messageElement.textContent = '';
-            guessesElement.textContent = `Incorrect Guesses Left: ${maxIncorrectAttempts - incorrectAttempts}`;
-            incorrectGuessesElement.textContent = 'Incorrect Guesses: ';
+            // Update text next to icons
+            attemptsTextSpan.textContent = `${maxIncorrectAttempts - incorrectAttempts}`;
+            incorrectLettersTextSpan.textContent = ''; // Clear incorrect letters display
+
             restartButton.classList.add('hidden'); // Hide restart button
             // Reset message class - remove specific color classes
             messageElement.className = 'message text-base sm:text-lg';
@@ -1073,8 +998,10 @@
              // Reset the display
              wordDisplay.textContent = maskedWord.split('').join(' '); // Display with spaces
              messageElement.textContent = '';
-             guessesElement.textContent = `Incorrect Guesses Left: ${maxIncorrectAttempts - incorrectAttempts}`;
-             incorrectGuessesElement.textContent = 'Incorrect Guesses: ';
+             // Update text next to icons
+             attemptsTextSpan.textContent = `${maxIncorrectAttempts - incorrectAttempts}`;
+             incorrectLettersTextSpan.textContent = ''; // Clear incorrect letters display
+
              restartButton.classList.add('hidden'); // Hide restart button
              // Reset message class - remove specific color classes
              messageElement.className = 'message text-base sm:text-lg';
@@ -1090,8 +1017,8 @@
         }
 
 
-        // Function to handle a letter guess (now accepts the letter directly)
-        function handleGuess(guess) {
+        // Function to handle a letter guess (now accepts the letter and the button)
+        function handleGuess(guess, clickedButton) {
             // Validate input (already done by keyboard structure, but good for safety)
             if (guess.length !== 1 || !/^[A-Z]$/.test(guess)) {
                 messageElement.textContent = 'Invalid input.'; // Should not happen with keyboard
@@ -1114,6 +1041,9 @@
             if (secretWord.includes(guess)) {
                 messageElement.textContent = `Good guess! "${guess}" is in the word.`;
                 messageElement.className = 'message text-base sm:text-lg text-green-600';
+
+                // Add correct guess class to the button
+                clickedButton.classList.add('correct-guess');
 
                 // Update the masked word
                 let newMaskedWord = '';
@@ -1142,8 +1072,13 @@
                 messageElement.textContent = `Sorry, "${guess}" is not in the word.`;
                 messageElement.className = 'message text-base sm:text-lg text-orange-600';
                 incorrectAttempts++; // Increment incorrect attempts
-                guessesElement.textContent = `Incorrect Guesses Left: ${maxIncorrectAttempts - incorrectAttempts}`;
-                incorrectGuessesElement.textContent += guess + ' '; // Display incorrect guess
+                // Update text next to icons
+                attemptsTextSpan.textContent = `${maxIncorrectAttempts - incorrectAttempts}`;
+                // Add incorrect guess class to the button
+                clickedButton.classList.add('used'); // Using 'used' class for incorrect guesses
+
+                // Update the incorrect letters display
+                incorrectLettersTextSpan.textContent += guess + ' ';
 
                 // Check for loss
                 if (incorrectAttempts >= maxIncorrectAttempts) {

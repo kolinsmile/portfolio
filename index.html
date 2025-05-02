@@ -100,7 +100,7 @@
                          inset -2px -2px 4px #272727;
          }
 
-         /* Orange Button Style (Matching Screenshot) */
+         /* Orange Button Style (Keeping for other uses if needed) */
          .neumorphic-button.orange {
              background: #ff8c00; /* Orange background */
              box-shadow: 5px 5px 10px #cc7000,
@@ -131,6 +131,17 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Shimmer animation */
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
 
         .animate-fadeIn {
             animation: fadeIn 0.8s ease-out forwards;
@@ -581,6 +592,28 @@
             flex-basis: 0; /* Allow buttons to shrink */
             min-width: 100px; /* Minimum width for buttons before wrapping */
         }
+
+        /* Style for the animated header text */
+        header .text-2xl.font-bold {
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent); /* Light mode gradient */
+            background-size: 200% 100%;
+            background-repeat: no-repeat;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s infinite linear; /* Apply shimmer animation */
+        }
+
+         /* Dark mode gradient for shimmer */
+         body.dark-mode header .text-2xl.font-bold {
+             background: linear-gradient(90deg, transparent, rgba(0, 255, 140, 0.6), transparent); /* Dark mode gradient */
+             background-size: 200% 100%;
+             background-repeat: no-repeat;
+             background-clip: text;
+             -webkit-background-clip: text;
+             -webkit-text-fill-color: transparent;
+             /* Animation is the same, just the background changes */
+         }
     </style>
 </head>
 <body>
@@ -589,10 +622,13 @@
 
     <header class="container mx-auto my-8 p-6 flex flex-col md:flex-row justify-between items-center">
         <div class="mb-4 md:mb-0 text-2xl font-bold">Asef Salehi</div>
-        <nav class="mb-4 md:mb-0 flex items-center"> <ul class="flex space-x-6 md:space-x-6">
-                <li><a href="#" class="hover:underline">Home</a></li>
-                <li><a href="#about" class="hover:underline">About Us</a></li>
-                <li class="hidden md:block"><a href="#courses" class="hover:underline">Courses</a></li> <li><a href="#contact" class="neumorphic-button orange">Contact Us</a></li> </ul>
+        <nav class="mb-4 md:mb-0 flex items-center">
+            <ul class="flex space-x-6 md:space-x-6">
+                <li><a href="#" class="neumorphic-button">Home</a></li>
+                <li><a href="#about" class="neumorphic-button">About Us</a></li>
+                <li class="hidden md:block"><a href="#courses" class="neumorphic-button">Courses</a></li>
+                <li><a href="#contact" class="neumorphic-button">Contact Us</a></li>
+            </ul>
              <button id="theme-toggle" class="neumorphic-button" aria-label="Toggle Theme">
                  ☀️ </button>
         </nav>
@@ -652,8 +688,14 @@
              <section id="courses" class="neumorphic section-hidden">
                  <h2 class="section-title"><i class="fas fa-graduation-cap"></i> Courses</h2>
                  <div class="section-content">
-                     <p>Details about your courses will go here. This section is only visible on larger screens.</p>
-                     </div>
+                     <ul class="list-disc list-inside space-y-2">
+                         <li>CS50's Introduction to Computer Science (Harvard University)</li>
+                         <li>Introduction to Python Programming (Udemy/Coursera/edX - General)</li>
+                         <li>Machine Learning (Coursera - Andrew Ng or similar)</li>
+                         <li>Deep Learning Specialization (Coursera - Andrew Ng)</li>
+                         <li>Python for Data Science and Machine Learning Bootcamp (Udemy or similar)</li>
+                     </ul>
+                 </div>
              </section>
 
 
@@ -818,7 +860,7 @@
 
                 if (customCursor) {
                     customCursor.style.left = `${cursorX}px`;
-                    customCursor.style.top = `${cursorY}px`;
+                    customCursor.style.top = `${mouseY}px`;
                 }
 
                 animationFrameId = requestAnimationFrame(animateCursor);

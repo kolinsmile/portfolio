@@ -376,7 +376,7 @@
              border: none;
              cursor: pointer;
              font-size: 1.5em;
-             color: #cccccc; /* Match portfolio paragraph color */
+             color: #cccccc; /* Default icon color (light) */
              transition: color 0.3s ease;
              z-index: 10; /* Ensure it's above other elements */
              display: flex; /* Use flex to center icon */
@@ -452,7 +452,7 @@
          body.dark-mode .keyboard-button:active {
               box-shadow: inset 2px 2px 4px #0d0d0d,
                         inset -2px -2px 4px #272727; /* Base active shadow */
-              color: #ffffff; /* Base active color */
+              color: #ffffff; /* Lighter color when pressed */
          }
 
 
@@ -489,12 +489,12 @@
                         -4px -4px 8px #272727; /* Base shadow */
          }
          body.dark-mode .change-word-button:hover {
-             background-color: #222; /* Base hover color */
+             background-color: #222; /* Slightly lighter dark */
              box-shadow: 2px 2px 4px #0d0d0d,
-                        -2px -2px 4px #272727; /* Base hover shadow */
+                        -2px -2px 4px #272727; /* Smaller shadow */
          }
          body.dark-mode .change-word-button:active {
-             background-color: #333; /* Base active color */
+             background-color: #333; /* Even lighter dark */
               box-shadow: inset 2px 2px 4px #0d0d0d,
                         inset -2px -5px 4px #272727; /* Inset shadow */
          }
@@ -703,7 +703,7 @@
          */
 
 
-        /* Header styles to fix icon positioning */
+        /* Header styles copied from portfolio page */
          header {
              width: 100%; /* Ensure header takes full width */
              max-width: 1200px; /* Match main content container max width */
@@ -723,7 +723,18 @@
              display: flex; /* Use flexbox to center icon/text if needed */
              align-items: center;
              justify-content: flex-start; /* Align icon to the left within its container */
+             font-size: 1.5rem; /* Adjust font size for the title */
+             font-weight: 700; /* Bold font for the title */
+             color: #f0f0f0; /* Light color for the title */
+             animation: color-pulse-dark 2s infinite alternate; /* Apply animation to the title */
          }
+
+         /* Simple color pulse animation for dark mode (Copied from index.html) */
+         @keyframes color-pulse-dark {
+             0%, 100% { color: #f0f0f0; } /* Light text */
+             50% { color: #cccccc; } /* Slightly darker light text */
+         }
+
 
          header nav {
              margin-bottom: 0; /* Remove bottom margin from nav */
@@ -775,22 +786,72 @@
               }
          }
 
+          /* Specific styles for the game icons within dropdown links */
+         .game-icon-nav {
+             font-size: 1.2em; /* Adjust size as needed */
+             margin-right: 5px; /* Space between icon and text */
+         }
+
+         /* Styles for the Game Play dropdown (Copied from index.html) */
+        .game-dropdown {
+            position: relative; /* Needed for absolute positioning of the dropdown content */
+            display: inline-block; /* Allows the dropdown to sit next to other nav items */
+        }
+
+        .game-dropdown-content {
+            display: none; /* Hidden by default */
+            position: absolute;
+            background-color: #1a1a1a; /* Match dark background */
+            box-shadow: 4px 4px 8px #0d0d0d,
+                        -4px -4px 8px #272727;
+            border-radius: 12px; /* Match button border radius */
+            min-width: 160px; /* Minimum width for the dropdown */
+            z-index: 1; /* Ensure it appears above other content */
+            top: 100%; /* Position below the button */
+            left: 0; /* Align to the left of the button */
+            padding: 10px 0; /* Vertical padding */
+        }
+
+        .game-dropdown-content a {
+            color: #00ff8c; /* Vibrant green text */
+            padding: 10px 20px; /* Padding for dropdown links */
+            text-decoration: none;
+            display: block; /* Make links block elements */
+            text-align: left; /* Align text to the left */
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .game-dropdown-content a:hover {
+            background-color: #2a2a2a; /* Slightly lighter dark background on hover */
+            color: #f0f0f0; /* Lighter text on hover */
+        }
+
+        /* Show the dropdown content when the parent has the 'active' class */
+        .game-dropdown.active .game-dropdown-content {
+            display: block;
+        }
+
     </style>
 </head>
 <body>
-    <header>
+    <header class="container mx-auto my-8 p-6 flex flex-col md:flex-row justify-between items-center">
         <div class="header-title">
-             </div>
-        <nav>
-            <ul>
-                <li><a href="index.html" class="neumorphic-button"><i class="ph ph-house home-icon"></i></a></li>
-                 <li><a href="guess_number.html" class="neumorphic-button"><i class="ph ph-game-controller word-game-icon"></i></a></li>
-                </ul>
+             Asef Salehi </div>
+        <nav class="mb-4 md:mb-0 flex items-center">
+            <ul class="flex space-x-6 md:space-x-6">
+                <li><a href="index.html" class="neumorphic-button">Home</a></li>
+                <li class="game-dropdown">
+                    <button class="neumorphic-button" id="gamePlayButton">Game Play</button>
+                    <div class="game-dropdown-content">
+                        <a href="guess_number.html"><i class="ph ph-game-controller game-icon-nav"></i> Number Guess</a>
+                    </div>
+                </li>
+                 </ul>
             </nav>
     </header>
 
     <p class="welcome-text">
-        Welcome to the Guess the Word game! Try to guess the secret word by guessing one letter at a time.
+        Welcome to the Word Guess game! Try to guess the secret word by guessing one letter at a time.
         You have a limited number of incorrect guesses. Good luck!
     </p>
 
@@ -827,7 +888,7 @@
     </div>
 
     <script>
-        // JavaScript for the word guessing game logic and theme toggle
+        // JavaScript for the word guessing game logic and dropdown
 
         let allWordCategories = []; // Array to hold all categories and words from JSON
         let currentCategoryWords = []; // Array to hold words for the selected category
@@ -850,6 +911,21 @@
         const keyboard = document.getElementById('keyboard'); // Reference to the keyboard container
         const categorySelect = document.getElementById('categorySelect'); // Reference to the category dropdown
         const changeWordButton = document.getElementById('changeWordButton'); // Reference to the Change Word button
+
+        // Game Play Dropdown functionality (Copied from index.html)
+        const gamePlayButton = document.getElementById('gamePlayButton');
+        const gameDropdown = gamePlayButton.parentElement; // The parent li element
+
+        gamePlayButton.addEventListener('click', function() {
+            gameDropdown.classList.toggle('active'); // Toggle the 'active' class on the parent li
+        });
+
+        // Close the dropdown if the user clicks outside of it
+        window.addEventListener('click', function(event) {
+            if (!gameDropdown.contains(event.target)) {
+                gameDropdown.classList.remove('active');
+            }
+        });
 
 
         // Function to fetch words from JSON

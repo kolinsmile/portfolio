@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Number</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* Base styles for Dark Neumorphic Theme */
+        body {
+            font-family: 'Inter', sans-serif; /* Using Inter font for consistency */
+            background-color: #1a1a1a; /* Dark background */
+            color: #f0f0f0; /* Light text - base color for body */
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: flex; /* Use flexbox for the main body content */
+            flex-direction: column; /* Stack header and main content vertically */
+            align-items: center; /* Center content horizontally */
+            min-height: 100vh;
+        }
+
+        /* Custom styles for neumorphic effect (Dark Theme) */
+        .neumorphic {
+            border-radius: 20px; /* Rounded corners */
+            background: #1a1a1a; /* Match dark background */
+            box-shadow: 6px 6px 12px #0d0d0d,
+                        -6px -6px 12px #272727;
+            padding: 30px; /* Default padding */
+        }
+
+        .neumorphic-inset {
+             border-radius: 15px; /* Rounded corners */
+             background: #1a1a1a; /* Match dark background */
+             box-shadow: inset 4px 4px 8px #0d0d0d,
+                         inset -4px -4px 8px #272727;
+        }
+
+        .neumorphic-button {
+            border-radius: 12px; /* Rounded corners */
+            background: #1a1a1a; /* Match dark background */
+            box-shadow: 4px 4px 8px #0d0d0d,
+                        -4px -4px 8px #272727;
+            transition: all 0.2s ease;
+            color: #00ff8c; /* Vibrant green text color - for button text */
+            padding: 10px 20px; /* Button padding */
+            font-weight: 500; /* Inter Medium - Matches portfolio buttons */
+            display: inline-block;
+            text-align: center;
+            user-select: none;
+        }
+
+         /* Dark Mode Button Hover/Active */
+         .neumorphic-button:hover {
+             box-shadow: 2px 2px 4px #0d0d0d,
+                         -2px -2px 4px #272727;
+         }
+
+          .neumorphic-button:active {
+            box-shadow: inset 2px 2px 4px #0d0d0d,
+                         inset -2px -2px 4px #272727;
+         }
+
+         /* Orange Button Style (for the "GUESS" button) */
+         .neumorphic-button.orange {
+             background: #ff8c00; /* Orange background */
+             box-shadow: 4px 4px 8px #cc7000,
+                         -4px -4px 8px #272727;
+             color: #1a1a1a; /* Dark text for contrast */
+         }
+
+         .neumorphic-button.orange:hover {
+              box-shadow: 3px 3px 6px #cc7000,
+                          -3px -3px 6px #ffaa00;
+         }
+
+         .neumorphic-button.orange:active {
+             box-shadow: inset 3px 3px 6px #cc7000,
+                         inset -3px -3px 6px #ffaa00;
+         }
+
+        /* Style for the welcome text */
+        .welcome-text {
+            font-family: 'Inter', sans-serif; /* Use Inter font */
+            color: #cccccc; /* Match portfolio paragraph color */
+            text-align: center;
+            margin-bottom: 2rem; /* Space below the welcome text */
+            font-size: 1.1em; /* Slightly larger font */
+            max-width: 600px; /* Limit width for readability */
+            line-height: 1.6; /* Improve readability */
+            font-weight: 400; /* Inter Regular - Matches portfolio paragraphs */
+        }
+
+        .game-wrapper {
+            display: flex; /* Use flexbox for horizontal layout */
+            flex-direction: column; /* Stack vertically by default */
+            align-items: center;
+            gap: 2rem; /* Gap between sections */
+            max-width: 900px; /* Increased max width for horizontal layout */
+            width: 100%;
+            padding: 1rem; /* Padding around the wrapper */
+             flex-grow: 1; /* Allow game content to take up vertical space */
+             justify-content: center; /* Center game content vertically */
+        }
+
+        @media (min-width: 768px) { /* Medium screens and up */
+            .game-wrapper {
+                flex-direction: row; /* Arrange horizontally on medium screens and up */
+                align-items: flex-start; /* Align items to the top */
+            }
+        }
+
+        .game-info-container {
+            /* Applying neumorphic styles */
+             border-radius: 20px; /* Rounded corners */
+             background: #1a1a1a; /* Match dark background */
+             box-shadow: 6px 6px 12px #0d0d0d,
+                         -6px -6px 12px #272727;
+            padding: 2rem; /* Increased padding */
+            text-align: center;
+            width: 100%; /* Take full width on small screens */
+             flex: 1; /* Allow this section to grow */
+             position: relative; /* Needed for absolute positioning of toggle button and animation */
+             overflow: hidden; /* Hide animation when outside container */
+        }
+
+         @media (min-width: 768px) { /* Medium screens and up */
+            .game-info-container {
+                width: auto; /* Auto width based on content/flex */
+                 max-width: 400px; /* Limit max width even when horizontal */
+            }
+         }
+
+
+        .game-keyboard-container {
+             /* Applying neumorphic styles */
+             border-radius: 20px; /* Rounded corners */
+             background: #1a1a1a; /* Match dark background */
+             box-shadow: 6px 6px 12px #0d0d0d,
+                         -6px -6px 12px #272727;
+            padding: 2rem; /* Increased padding */
+            text-align: center;
+            width: 100%; /* Take full width on small screens */
+             flex: 1; /* Allow this section to grow */
+        }
+
+         @media (min-width: 768px) { /* Medium screens and up */
+            .game-keyboard-container {
+                width: auto; /* Auto width based on content/flex */
+                 max-width: 400px; /* Limit max width even when horizontal */
+            }
+         }
+
+
+        /* Specific font for heading, intro text, and attempts */
+        h1, #introText, #guesses {
+            font-family: 'Inter', sans-serif; /* Using Inter font */
+        }
+
+        h1 {
+            color: #f0f0f0; /* Match portfolio heading color */
+            margin-bottom: 0.5rem; /* Reduced space below heading */
+            font-weight: 700; /* Inter Bold - Matches portfolio headings */
+             font-size: 1.8em; /* Increased base font size */
+        }
+
+         /* Responsive font size for heading */
+        @media (min-width: 640px) { /* Small screens and up */
+            h1 {
+                font-size: 2em; /* Slightly larger on small screens */
+            }
+        }
+
+        @media (min-width: 768px) { /* Medium screens and up */
+            h1 {
+                font-size: 2.2em; /* Even larger on medium screens and up */
+            }
+        }
+
+
+        p {
+             color: #cccccc; /* Match portfolio paragraph color */
+             margin-bottom: 1.5rem; /* Increased spacing */
+             font-weight: 400; /* Inter Regular - Matches portfolio paragraphs */
+        }
+
+         #introText {
+             font-weight: 400; /* Inter Regular - Matches portfolio paragraphs */
+             margin-bottom: 2rem; /* Added more space below intro text */
+         }
+
+         #guesses {
+             margin-top: 0.5rem;
+             font-weight: 400; /* Inter Regular - Matches portfolio paragraphs */
+         }
+
+
+        .guess-display {
+            height: 3.5rem; /* Slightly increased height */
+            line-height: 3.5rem; /* Vertically center text */
+            border: none; /* Remove border */
+            border-radius: 0.75rem; /* More rounded */
+            text-align: center;
+            font-size: 1.8em; /* Larger font size */
+            font-weight: 700; /* Inter Bold - Matches portfolio headings/titles */
+            color: #00ff8c; /* Vibrant green text color */
+            /* Applying neumorphic inset styles */
+            background: #1a1a1a; /* Match dark background */
+            box-shadow: inset 4px 4px 8px #0d0d0d,
+                        inset -4px -4px 8px #272727;
+            overflow: hidden;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem; /* Increased spacing */
+        }
+
+        /* Responsive font size for guess display */
+        @media (min-width: 640px) { /* Small screens and up */
+            .guess-display {
+                font-size: 2em;
+                height: 4rem;
+                line-height: 4rem;
+            }
+        }
+
+
+        /* Responsive keyboard grid */
+        .keyboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Default 3 columns */
+            gap: 12px; /* Increased gap */
+            margin-bottom: 1.5rem; /* Increased spacing */
+        }
+
+        .keyboard-button {
+            padding: 1rem; /* Increased padding */
+            font-size: 1.3em; /* Slightly larger font */
+            font-weight: 500; /* Inter Medium - Matches portfolio buttons */
+            border: none;
+            border-radius: 0.75rem; /* More rounded */
+            cursor: pointer;
+            transition: all 0.2s ease; /* Smooth transition for hover/active */
+            /* Ensure adequate touch target size */
+            min-width: 50px;
+            min-height: 50px;
+            /* Applying neumorphic button styles */
+            background: #1a1a1a; /* Match dark background */
+            box-shadow: 4px 4px 8px #0d0d0d,
+                        -4px -4px 8px #272727;
+            color: #00ff8c; /* Vibrant green text color */
+        }
+
+        .keyboard-button:hover {
+             box-shadow: 2px 2px 4px #0d0d0d,
+                        -2px -2px 4px #272727; /* Smaller shadow on hover */
+             color: #f0f0f0; /* Match portfolio heading color on hover */
+        }
+
+        .keyboard-button:active {
+             box-shadow: inset 2px 2px 4px #0d0d0d,
+                        inset -2px -2px 4px #272727; /* Inset shadow on active (pressed) */
+             color: #ffffff; /* Lighter color when pressed */
+        }
+
+        .action-button {
+            color: #cccccc; /* Match portfolio paragraph color */
+        }
+
+        .action-button:hover {
+             color: #f0f0f0; /* Match portfolio heading color on hover */
+        }
+
+         .submit-button {
+            grid-column: span 3; /* Make submit button span all columns */
+            /* Applying orange neumorphic button styles */
+            background: #ff8c00; /* Orange background */
+            box-shadow: 4px 4px 8px #cc7000,
+                         -4px -4px 8px #272727;
+            color: #1a1a1a; /* Dark text for contrast */
+             font-weight: 700; /* Inter Bold - Matches portfolio buttons like "Hire Me" */
+         }
+         .submit-button:hover {
+            background-color: #e67e00; /* Slightly darker orange */
+             box-shadow: 3px 3px 6px #cc7000,
+                        -3px -3px 6px #ffaa00; /* Smaller orange shadow */
+         }
+         .submit-button:active {
+             background-color: #cc7000; /* Even darker orange */
+             box-shadow: inset 3px 3px 6px #cc7000,
+                         inset -3px -3px 6px #ffaa00; /* Inset orange shadow */
+         }
+
+         .message {
+             margin-top: 1.5rem; /* Increased spacing */
+             font-size: 1.1em; /* Slightly larger font */
+             font-weight: 600; /* Inter Semi-bold - Appropriate for messages */
+             min-height: 1.5em; /* Ensure space */
+         }
+
+         /* Colors for messages */
+         .message.text-green-600 { color: #4ade80; } /* Tailwind green-400 for dark mode */
+         .message.text-orange-600 { color: #fb923c; } /* Tailwind orange-400 for dark mode */
+         .message.text-red-600 { color: #f87171; } /* Tailwind red-400 for dark mode */
+
+
+         .attempts-display {
+             margin-top: 0.5rem;
+             color: #a0aec0; /* Match portfolio adjusted color for dark mode */
+             font-size: 0.9em;
+             font-weight: 400; /* Inter Regular - Matches portfolio small text */
+         }
+
+         .previous-guesses {
+             margin-top: 1rem;
+             font-size: 0.9em;
+             color: #a0aec0; /* Match portfolio adjusted color for dark mode */
+             min-height: 1.5em; /* Ensure space even when empty */
+             font-weight: 400; /* Inter Regular - Matches portfolio small text */
+         }
+
+        .restart-button {
+            width: 100%;
+            /* Applying neumorphic button styles */
+            background: #1a1a1a; /* Match dark background */
+            box-shadow: 4px 4px 8px #0d0d0d,
+                        -4px -4px 8px #272727;
+            color: #00ff8c; /* Vibrant green text color */
+            padding: 0.75rem;
+            border-radius: 0.75rem; /* More rounded */
+            margin-top: 1.5rem; /* Increased spacing */
+            transition: background-color 0.2s ease, box-shadow 0.2s ease, color 0.3s ease; /* Smooth transition */
+             font-weight: 600; /* Inter Semi-bold - Appropriate for buttons */
+        }
+        .restart-button:hover {
+            background-color: #222; /* Slightly lighter dark */
+             box-shadow: 2px 2px 4px #0d0d0d,
+                        -2px -2px 4px #272727; /* Smaller shadow */
+        }
+         .restart-button:active {
+             background-color: #333; /* Even lighter dark */
+              box-shadow: inset 2px 2px 4px #0d0d0d,
+                        inset -2px -5px 4px #272727; /* Inset shadow */
+         }
+
+
+         /* Winning Number Animation */
+         .winning-number-animation {
+             position: absolute;
+             bottom: 2rem; /* Start from below the guess display */
+             left: 50%;
+             transform: translateX(-50%); /* Center horizontally */
+             font-size: 2.5em; /* Larger font size for animation */
+             font-weight: 700; /* Inter Bold - Matches portfolio headings/titles */
+             color: #4ade80; /* Vibrant green color for winning */
+             opacity: 0; /* Start invisible */
+             pointer-events: none; /* Don't block clicks */
+             z-index: 5; /* Below the theme toggle, above other elements */
+             font-family: 'Inter', sans-serif; /* Use Inter font for animation */
+         }
+
+         /* Keyframes for the firing animation */
+         @keyframes fireUp {
+             0% {
+                 opacity: 0;
+                 transform: translate(-50%, 0); /* Start position (centered horizontally, at bottom) */
+             }
+             50% {
+                 opacity: 1;
+                 transform: translate(-50%, -80px); /* Move up and become visible */
+             }
+             100% {
+                 opacity: 0;
+                 transform: translate(-50%, -150px); /* Continue moving up and fade out */
+             }
+         }
+
+         /* Class to apply the animation */
+         .winning-number-animation.animate {
+             animation: fireUp 1.5s ease-out forwards; /* Apply the animation */
+         }
+
+
+         /* Header styles copied from portfolio page */
+         header {
+             width: 100%; /* Ensure header takes full width */
+             max-width: 1200px; /* Match main content container max width */
+             margin: 0 auto; /* Center the header */
+             padding: 1.5rem; /* Adjust padding */
+             display: flex;
+             flex-direction: column; /* Stack logo and nav vertically by default */
+             justify-content: center; /* Center items vertically */
+             align-items: center; /* Center items horizontally */
+             flex-wrap: wrap; /* Allow header items to wrap if needed */
+             box-sizing: border-box; /* Include padding in width */
+         }
+
+         header .text-2xl.font-bold {
+             margin-bottom: 1rem; /* Space below logo on small screens */
+             flex-shrink: 0; /* Prevent logo from shrinking */
+             animation: color-pulse-dark 2s infinite alternate; /* Apply dark mode animation */
+             color: #f0f0f0; /* Light text color for the title */
+         }
+
+         header nav {
+             margin-bottom: 0; /* Remove bottom margin from nav */
+             display: flex;
+             flex-direction: row; /* Keep ul in a row */
+             align-items: center; /* Vertically align ul */
+             flex-grow: 1;
+             justify-content: flex-end; /* Push nav contents to the right */
+             min-width: 0;
+             flex-wrap: wrap; /* Allow ul to wrap */
+             width: 100%;
+             gap: 10px; /* Add gap between nav items */
+         }
+
+         header nav ul {
+             display: flex;
+             justify-content: center; /* Center buttons horizontally */
+             flex-wrap: wrap;
+             gap: 10px; /* Smaller gap for wrapped links */
+             margin-right: 0; /* Remove right margin */
+             min-width: 0;
+             flex-shrink: 0;
+             margin-bottom: 0; /* Remove bottom margin */
+         }
+
+         header nav ul li {
+              margin-bottom: 0;
+              flex-basis: auto;
+              width: auto;
+         }
+
+         /* Responsive adjustments for header on medium and larger screens */
+         @media (min-width: 768px) {
+              header {
+                  flex-direction: row; /* Items in a row */
+                  justify-content: space-between; /* Space out logo and nav */
+                  align-items: center; /* Vertically align items */
+                  padding: 1.5rem 2rem; /* Adjust padding */
+              }
+
+              header .text-2xl.font-bold {
+                  margin-bottom: 0; /* Remove bottom margin on larger screens */
+              }
+
+              header nav {
+                  justify-content: flex-end; /* Push nav contents to the right */
+                  gap: 1.5rem; /* Add gap between nav items */
+              }
+
+              header nav ul {
+                  gap: 1.5rem; /* Add space between nav links */
+              }
+         }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="text-2xl font-bold">Asef Salehi</div>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="neumorphic-button">Home</a></li>
+                </ul>
+            </nav>
+    </header>
+
+    <p class="welcome-text">
+        Welcome to the Guess the Number game! I'm thinking of a number between 1 and 100.
+        Use the keyboard below to enter your guess. You have 10 attempts. Good luck!
+    </p>
+
+    <div class="game-wrapper">
+        <div class="game-info-container" id="gameInfoContainer">
+             <h1 class="text-xl sm:text-2xl font-bold">Guess the Number!</h1>
+            <div id="guessDisplay" class="guess-display text-xl sm:text-2xl"></div>
+
+            <div id="winningNumberAnimation" class="winning-number-animation"></div>
+
+            <p id="message" class="message text-base sm:text-lg"></p>
+            <p id="guesses" class="attempts-display text-sm sm:text-base"></p>
+            <p id="previousGuesses" class="previous-guesses"></p>
+
+            <button id="restartGame" class="restart-button text-base sm:text-lg">Restart Game</button>
+        </div>
+
+        <div class="game-keyboard-container" id="gameKeyboardContainer">
+            <div id="keyboard" class="keyboard-grid">
+                <button class="keyboard-button digit-button">1</button>
+                <button class="keyboard-button digit-button">2</button>
+                <button class="keyboard-button digit-button">3</button>
+                <button class="keyboard-button digit-button">4</button>
+                <button class="keyboard-button digit-button">5</button>
+                <button class="keyboard-button digit-button">6</button>
+                <button class="keyboard-button digit-button">7</button>
+                <button class="keyboard-button digit-button">8</button>
+                <button class="keyboard-button digit-button">9</button>
+                <button class="keyboard-button action-button" id="backspaceButton">DEL</button>
+                <button class="keyboard-button digit-button">0</button>
+                 <button class="keyboard-button action-button" id="clearGuessButton">CLEAR</button>
+                <button class="keyboard-button submit-button orange" id="submitGuess">GUESS</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for the game logic
+
+        let secretNumber; // The number the user needs to guess
+        let attempts; // Counter for the number of guesses
+        let maxAttempts = 10; // Maximum number of attempts allowed
+        let currentGuessString = ''; // String to build the guess from keyboard input
+        let previousGuesses = []; // Array to store previous guesses
+
+        const guessDisplay = document.getElementById('guessDisplay');
+        const messageElement = document.getElementById('message');
+        const guessesElement = document.getElementById('guesses');
+        const previousGuessesElement = document.getElementById('previousGuesses');
+        const submitButton = document.getElementById('submitGuess');
+        const restartButton = document.getElementById('restartGame');
+        const keyboard = document.getElementById('keyboard');
+        const winningNumberAnimationElement = document.getElementById('winningNumberAnimation'); // Element for the animation
+
+
+        // Function to start a new game
+        function startGame() {
+            // Generate a random integer between 1 and 100 (inclusive)
+            secretNumber = Math.floor(Math.random() * 100) + 1;
+            attempts = 0; // Reset attempts count
+            currentGuessString = ''; // Reset current guess string
+            previousGuesses = []; // Clear previous guesses
+
+            // Reset the display
+            guessDisplay.textContent = '';
+            messageElement.textContent = '';
+            guessesElement.textContent = `Attempts: 0/${maxAttempts}`; // Display attempts limit
+            previousGuessesElement.textContent = ''; // Clear previous guesses display
+            submitButton.disabled = true; // Disable submit button initially
+            // restartButton.classList.add('hidden'); // Keep restart button visible
+            // Reset message class - remove specific color classes
+            messageElement.className = 'message text-base sm:text-lg';
+
+            // Ensure animation element is hidden and reset
+            winningNumberAnimationElement.textContent = '';
+            winningNumberAnimationElement.classList.remove('animate');
+
+
+            // Enable keyboard buttons
+            const buttons = keyboard.querySelectorAll('button');
+            buttons.forEach(button => button.disabled = false);
+        }
+
+        // Function to handle a user's guess
+        function checkGuess() {
+            // Get the user's guess from the display and convert it to a number
+            const userGuess = parseInt(currentGuessString);
+
+            // Validate the input - This check is still needed for robustness
+            if (currentGuessString === '' || isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+                // This message should ideally not be reached if the button is disabled when empty,
+                // but it's good to keep as a fallback.
+                messageElement.textContent = 'Please enter a valid number between 1 and 100.';
+                 // Set message class for error color
+                messageElement.className = 'message text-base sm:text-lg text-red-600';
+                currentGuessString = ''; // Clear invalid input
+                guessDisplay.textContent = '';
+                submitButton.disabled = true; // Disable button after invalid input
+                return; // Stop the function if input is invalid
+            }
+
+            // Add the valid guess to the previous guesses list
+            previousGuesses.push(userGuess);
+            previousGuessesElement.textContent = 'Previous guesses: ' + previousGuesses.join(', '); // Display previous guesses
+
+            attempts++; // Increment attempt count
+            guessesElement.textContent = `Attempts: ${attempts}/${maxAttempts}`; // Update attempts display
+
+            // Compare the user's guess to the secret number
+            if (userGuess === secretNumber) {
+                messageElement.textContent = `Congratulations! You guessed the number ${secretNumber} in ${attempts} attempts!`;
+                // Set message class for success color
+                messageElement.className = 'message text-base sm:text-lg text-green-600';
+                triggerWinningAnimation(secretNumber); // Trigger the animation
+                endGame(true); // End the game on win
+            } else if (attempts >= maxAttempts) {
+                 messageElement.textContent = `Game Over! The secret number was ${secretNumber}.`;
+                 // Set message class for game over color
+                 messageElement.className = 'message text-base sm:text-lg text-red-600';
+                 endGame(false); // End the game on loss
+            }
+            else if (userGuess < secretNumber) {
+                // Updated feedback message for too low
+                messageElement.textContent = 'Too low! Try a higher number.';
+                // Set message class for feedback color
+                messageElement.className = 'message text-base sm:text-lg text-orange-600';
+            } else { // userGuess > secretNumber
+                // Updated feedback message for too high
+                messageElement.textContent = 'Too high! Try a lower number.';
+                // Set message class for feedback color
+                messageElement.className = 'message text-base sm:text-lg text-orange-600';
+            }
+
+            // Clear the current guess string and display after each guess
+            currentGuessString = '';
+            guessDisplay.textContent = '';
+            submitButton.disabled = true; // Disable button after submitting a guess
+        }
+
+        // Function to trigger the winning number animation
+        function triggerWinningAnimation(number) {
+            winningNumberAnimationElement.textContent = number; // Set the number
+            winningNumberAnimationElement.classList.add('animate'); // Add the animation class
+
+            // Remove the animation class after the animation finishes
+            setTimeout(() => {
+                winningNumberAnimationElement.classList.remove('animate');
+                winningNumberAnimationElement.textContent = ''; // Clear the number
+            }, 1500); // Match the animation duration (1.5s)
+        }
+
+
+        // Function to end the game
+        function endGame(won) {
+             submitButton.disabled = true; // Disable submit button
+             // restartButton.classList.remove('hidden'); // Keep restart button visible
+             // Disable keyboard buttons
+             const buttons = keyboard.querySelectorAll('button');
+             buttons.forEach(button => button.disabled = true);
+        }
+
+        // Add event listener to the keyboard container
+        keyboard.addEventListener('click', function(event) {
+            // Use event.target to get the element that was clicked
+            const clickedElement = event.target;
+            // Use closest('button') to find the nearest parent button
+            const clickedButton = clickedElement.closest('button');
+
+            // Check if a button was clicked and it's not disabled
+            if (clickedButton && !clickedButton.disabled) {
+                if (clickedButton.classList.contains('digit-button')) {
+                    // Get the text content of the digit button
+                    const digit = clickedButton.textContent;
+                    // Append digit to the current guess string (max 3 digits for 1-100 range)
+                    if (currentGuessString.length < 3) {
+                        currentGuessString += digit;
+                        guessDisplay.textContent = currentGuessString; // Update the display
+                        // Enable submit button only if the guess string is NOT empty
+                        if (currentGuessString.length > 0) {
+                             submitButton.disabled = false;
+                        }
+                    }
+                } else if (clickedButton.id === 'backspaceButton') {
+                    // Remove the last character from the current guess string
+                    currentGuessString = currentGuessString.slice(0, -1);
+                    guessDisplay.textContent = currentGuessString; // Update the display
+                    // Disable submit button if guess becomes empty
+                    if (currentGuessString.length === 0) {
+                        submitButton.disabled = true;
+                    }
+                } else if (clickedButton.id === 'clearGuessButton') { // Handle the new clear button
+                     currentGuessString = ''; // Clear the current guess string
+                     guessDisplay.textContent = ''; // Clear the display
+                     messageElement.textContent = ''; // Clear any previous message
+                     messageElement.className = 'message text-base sm:text-lg'; // Reset message class
+                     submitButton.disabled = true; // Disable submit button after clearing
+                }
+                else if (clickedButton.id === 'submitGuess') {
+                    // Trigger the checkGuess function ONLY if the button is enabled
+                    if (!submitButton.disabled) {
+                        checkGuess();
+                    }
+                }
+            }
+        });
+
+
+        restartButton.addEventListener('click', startGame);
+
+        // Start the game when the page loads
+        window.onload = function() {
+            startGame();
+        };
+
+    </script>
+</body>
+</html>

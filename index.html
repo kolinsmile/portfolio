@@ -7,7 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
+     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+     <style>
         body {
             font-family: 'Inter', sans-serif;
             /* Dark Theme as Default */
@@ -439,6 +440,52 @@
         header .text-2xl.font-bold {
             animation: color-pulse-dark 2s infinite alternate; /* Apply dark mode animation */
         }
+
+        /* Specific styles for the game icons in the header */
+        .game-icon-nav {
+            font-size: 1.2em; /* Adjust size as needed */
+            margin-right: 5px; /* Space between icon and text */
+        }
+
+        /* Styles for the Game Play dropdown */
+        .game-dropdown {
+            position: relative; /* Needed for absolute positioning of the dropdown content */
+            display: inline-block; /* Allows the dropdown to sit next to other nav items */
+        }
+
+        .game-dropdown-content {
+            display: none; /* Hidden by default */
+            position: absolute;
+            background-color: #1a1a1a; /* Match dark background */
+            box-shadow: 4px 4px 8px #0d0d0d,
+                        -4px -4px 8px #272727;
+            border-radius: 12px; /* Match button border radius */
+            min-width: 160px; /* Minimum width for the dropdown */
+            z-index: 1; /* Ensure it appears above other content */
+            top: 100%; /* Position below the button */
+            left: 0; /* Align to the left of the button */
+            padding: 10px 0; /* Vertical padding */
+        }
+
+        .game-dropdown-content a {
+            color: #00ff8c; /* Vibrant green text */
+            padding: 10px 20px; /* Padding for dropdown links */
+            text-decoration: none;
+            display: block; /* Make links block elements */
+            text-align: left; /* Align text to the left */
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .game-dropdown-content a:hover {
+            background-color: #2a2a2a; /* Slightly lighter dark background on hover */
+            color: #f0f0f0; /* Lighter text on hover */
+        }
+
+        /* Show the dropdown content when the parent has the 'active' class */
+        .game-dropdown.active .game-dropdown-content {
+            display: block;
+        }
+
     </style>
 </head>
 <body>
@@ -448,7 +495,13 @@
         <nav class="mb-4 md:mb-0 flex items-center">
             <ul class="flex space-x-6 md:space-x-6">
                 <li><a href="#" class="neumorphic-button">Home</a></li>
-                <li><a href="guess_number.html" class="neumorphic-button">Play Game</a></li>
+                <li class="game-dropdown">
+                    <button class="neumorphic-button" id="gamePlayButton">Game Play</button>
+                    <div class="game-dropdown-content">
+                        <a href="guess_number.html"><i class="ph ph-game-controller game-icon-nav"></i> Number Guess</a>
+                        <a href="word.html"><i class="ph ph-text-aa game-icon-nav"></i> Word Guess</a>
+                    </div>
+                </li>
                 <li class="hidden md:block"><a href="#courses" class="neumorphic-button">Courses</a></li>
                 <li><a href="#contact" class="neumorphic-button">Contact Us</a></li>
             </ul>
@@ -463,7 +516,8 @@
                 <h1>Asef Salehi</h1>
                 <h1>Python Developer and <span>AI Engineer</span></h1>
                 <p>I am a passionate Python Developer and AI Engineer, new to the field but driven by the desire to learn and build innovative solutions. With 6 months of dedicated experience, I am actively working to make my dreams in technology a reality.</p>
-                <a href="#" class="neumorphic-button orange mt-6">Hire Me</a> </div>
+                <a href="#" class="neumorphic-button orange mt-6">Hire Me</a>
+            </div>
             <div class="hero-image">
                 <img src="images/bezh.png" alt="Asef Salehi">
             </div>
@@ -497,12 +551,12 @@
                  <h2 class="section-title"><i class="fas fa-chart-bar"></i> Statistics</h2>
                  <div class="section-content">
                      <div class="neumorphic p-6">
-                         <div class="text-4xl font-bold">6+</div>
-                         <div class="text-lg"><i class="fas fa-clock mr-2"></i>Months Experience</div>
+                          <div class="text-4xl font-bold">6+</div>
+                          <div class="text-lg"><i class="fas fa-clock mr-2"></i>Months Experience</div>
                      </div>
                      <div class="neumorphic p-6">
-                         <div class="text-4xl font-bold">Growing</div>
-                         <div class="text-lg"><i class="fas fa-chart-line mr-2"></i>Growing</div>
+                          <div class="text-4xl font-bold">Growing</div>
+                          <div class="text-lg"><i class="fas fa-chart-line mr-2"></i>Growing</div>
                      </div>
                       </div>
              </section>
@@ -510,28 +564,28 @@
              <section id="courses" class="neumorphic section-hidden">
                  <h2 class="section-title"><i class="fas fa-graduation-cap"></i> Courses</h2>
                  <div class="section-content">
-                     <ul class="list-disc list-inside space-y-2">
-                         <li>CS50's Introduction to Computer Science (Harvard University)</li>
-                         <li>Introduction to Python Programming (Udemy/Coursera/edX - General)</li>
-                         <li>Machine Learning (Coursera - Andrew Ng or similar)</li>
-                         <li>Deep Learning Specialization (Coursera - Andrew Ng)</li>
-                         <li>Python for Data Science and Machine Learning Bootcamp (Udemy or similar)</li>
-                     </ul>
+                      <ul class="list-disc list-inside space-y-2">
+                          <li>CS50's Introduction to Computer Science (Harvard University)</li>
+                          <li>Introduction to Python Programming (Udemy/Coursera/edX - General)</li>
+                          <li>Machine Learning (Coursera - Andrew Ng or similar)</li>
+                          <li>Deep Learning Specialization (Coursera - Andrew Ng)</li>
+                          <li>Python for Data Science and Machine Learning Bootcamp (Udemy or similar)</li>
+                      </ul>
                  </div>
              </section>
 
 
              <section id="contact" class="neumorphic section-hidden">
-                <h2 class="section-title"><i class="fas fa-envelope-open-text"></i> Contact</h2>
-                <div class="section-content">
-                     <p class="text-base md:text-lg mb-6">Feel free to reach out to me!</p>
-                     <div class="flex flex-col md:flex-row gap-4">
-                        <a href="mailto:m.asf.salehi@gmail.com" class="neumorphic-button">Email Me</a>
-                        <a href="https://github.com/AsefSalehi" target="_blank" class="neumorphic-button">GitHub</a>
-                        <a href="https://linkedin.com/in/asef-salehi" target="_blank" class="neumorphic-button">LinkedIn</a>
-                     </div>
-                </div>
-            </section>
+                 <h2 class="section-title"><i class="fas fa-envelope-open-text"></i> Contact</h2>
+                 <div class="section-content">
+                      <p class="text-base md:text-lg mb-6">Feel free to reach out to me!</p>
+                      <div class="flex flex-col md:flex-row gap-4">
+                          <a href="mailto:m.asf.salehi@gmail.com" class="neumorphic-button">Email Me</a>
+                          <a href="https://github.com/AsefSalehi" target="_blank" class="neumorphic-button">GitHub</a>
+                          <a href="https://linkedin.com/in/asef-salehi" target="_blank" class="neumorphic-button">LinkedIn</a>
+                      </div>
+                 </div>
+             </section>
         </div>
 
 
@@ -544,7 +598,7 @@
 
     <script src="https://kit.fontawesome.com/your-fontawesome-kit-code.js" crossorigin="anonymous"></script>
     <script>
-        // JavaScript for scroll animations
+        // JavaScript for scroll animations and game dropdown
         document.addEventListener('DOMContentLoaded', () => {
             const sections = document.querySelectorAll('section');
 
@@ -562,6 +616,21 @@
 
             sections.forEach(section => {
                 observer.observe(section);
+            });
+
+            // Game Play Dropdown functionality
+            const gamePlayButton = document.getElementById('gamePlayButton');
+            const gameDropdown = gamePlayButton.parentElement; // The parent li element
+
+            gamePlayButton.addEventListener('click', function() {
+                gameDropdown.classList.toggle('active'); // Toggle the 'active' class on the parent li
+            });
+
+            // Close the dropdown if the user clicks outside of it
+            window.addEventListener('click', function(event) {
+                if (!gameDropdown.contains(event.target)) {
+                    gameDropdown.classList.remove('active');
+                }
             });
         });
 

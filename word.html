@@ -477,7 +477,7 @@
                         -2px -2px 4px #272727; /* Base hover shadow */
          }
          body.dark-mode .restart-button:active {
-             background-color: #333; /* Base active color */
+             background-color: #333; /* Even lighter dark */
               box-shadow: inset 2px 2px 4px #0d0d0d,
                         inset -2px -5px 4px #272727; /* Inset shadow */
          }
@@ -523,7 +523,7 @@
          }
 
          .theme-toggle-button:hover {
-             color: #f0f0f0; /* Lighter color on hover */
+             color: #f0f0f0; /* Darker color on hover */
              box-shadow: 1px 1px 3px #0d0d0d,
                         -1px -1px 3px #272727; /* Smaller shadow on hover */
          }
@@ -629,7 +629,7 @@
 
          .home-button:active {
              box-shadow: inset 2px 2px 5px #0d0d0d,
-                        inset -2px -2px 5px #272727; /* Inset shadow on active */
+                        inset -2px -2px 5px #272727;
          }
 
           /* Styles for light mode when body does NOT have dark-mode class */
@@ -812,15 +812,6 @@
             padding: 10px 0; /* Vertical padding */
         }
 
-        .game-dropdown-content a {
-            color: #00ff8c; /* Vibrant green text */
-            padding: 10px 20px; /* Padding for dropdown links */
-            text-decoration: none;
-            display: block; /* Make links block elements */
-            text-align: left; /* Align text to the left */
-            transition: background-color 0.2s ease, color 0.2s ease;
-        }
-
         .game-dropdown-content a:hover {
             background-color: #2a2a2a; /* Slightly lighter dark background on hover */
             color: #f0f0f0; /* Lighter text on hover */
@@ -941,10 +932,11 @@
                  if (allWordCategories.length > 0) {
                      categorySelect.value = allWordCategories[0].category;
                      updateCategoryWords(); // Set initial category words
-                     startGame();
+                     startGame(); // Start the game after words are loaded and category is set
                  } else {
                      messageElement.textContent = "Error: No word categories found in words.json.";
                      messageElement.className = 'message text-base sm:text-lg text-red-600';
+                     disableGame(); // Disable game if no words are found
                  }
 
             } catch (error) {
@@ -1186,49 +1178,30 @@
         }
 
 
-        // Function to toggle theme
+        // Function to toggle theme (Keeping this for potential future use if theme toggle is added back)
         function toggleTheme() {
             body.classList.toggle('dark-mode');
-            // The base styles are now dark mode, so we toggle the light mode class
-            // gameInfoContainer.classList.toggle('dark-mode'); // Not needed with base dark mode
-            // gameKeyboardContainer.classList.toggle('dark-mode'); // Not needed with base dark mode
-
-
             // Update local storage
             if (body.classList.contains('dark-mode')) {
                 localStorage.setItem('theme', 'dark');
-                // Show moon icon, hide sun icon
-                themeToggle.querySelector('.ph-moon').classList.remove('hidden');
-                themeToggle.querySelector('.ph-sun').classList.add('hidden');
             } else {
                 localStorage.setItem('theme', 'light');
-                 // Show sun icon, hide moon icon
-                themeToggle.querySelector('.ph-sun').classList.remove('hidden');
-                 themeToggle.querySelector('.ph-moon').classList.add('hidden');
             }
         }
 
-        // Function to apply theme on page load
+        // Function to apply theme on page load (Keeping this for potential future use)
         function applyTheme() {
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'dark') {
-                body.classList.add('dark-mode'); // Add dark-mode class to trigger dark styles (which are now base)
-                 // Show moon icon, hide sun icon
-                themeToggle.querySelector('.ph-moon').classList.remove('hidden');
-                themeToggle.querySelector('.ph-sun').classList.add('hidden');
+                body.classList.add('dark-mode');
             } else {
-                 // Ensure light mode is applied if no preference or 'light' is saved
-                 body.classList.remove('dark-mode'); // Remove dark-mode class to trigger light styles
-                 // Show sun icon, hide moon icon
-                 themeToggle.querySelector('.ph-sun').classList.remove('hidden');
-                 themeToggle.querySelector('.ph-moon').classList.add('hidden');
+                 body.classList.remove('dark-mode');
             }
         }
 
 
         // Add event listeners
         restartButton.addEventListener('click', startGame);
-        // themeToggle.addEventListener('click', toggleTheme); // Theme toggle button is positioned absolutely now
         categorySelect.addEventListener('change', function() {
             updateCategoryWords(); // Update words list when category changes
             startGame(); // Start a new game with the selected category
@@ -1238,7 +1211,7 @@
 
         // Fetch words and apply theme when the page loads
         window.onload = function() {
-            applyTheme(); // Apply theme preference first
+            // applyTheme(); // Theme application is currently handled by base CSS
             fetchWords(); // Fetch words and start the game after theme is applied
         };
 

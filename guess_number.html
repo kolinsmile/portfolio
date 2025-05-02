@@ -24,6 +24,8 @@
             flex-direction: column; /* Stack header and main content vertically */
             align-items: center; /* Center content horizontally */
             min-height: 100vh;
+             padding-top: 1rem; /* Add padding at the top to prevent header overlap */
+             box-sizing: border-box; /* Include padding in height */
         }
 
         /* Custom styles for neumorphic effect (Dark Theme) */
@@ -145,6 +147,7 @@
              box-shadow: 6px 6px 12px #0d0d0d,
                          -6px -6px 12px #272727;
             padding: 2rem; /* Increased padding */
+            border-radius: 20px; /* Rounded corners */
             text-align: center;
             width: 100%; /* Take full width on small screens */
              flex: 1; /* Allow this section to grow */
@@ -204,29 +207,16 @@
             }
         }
 
-        /* Style for the game icon in the header */
-        .game-icon {
-            font-size: 2rem; /* Adjust size as needed */
-            color: #00ff8c; /* Match the vibrant green */
-            flex-shrink: 0; /* Prevent icon from shrinking */
-            /* Add a subtle pulse animation to the icon */
-            animation: icon-pulse 2s infinite alternate ease-in-out;
-        }
-
-        /* Keyframes for the icon pulse animation */
-        @keyframes icon-pulse {
-             0% {
-                 color: #00ff8c; /* Starting color */
-                 transform: scale(1);
-             }
-             100% {
-                 color: #4ade80; /* Slightly lighter green */
-                 transform: scale(1.05); /* Slightly larger */
-             }
-        }
-
         /* Style for the home icon in the header */
         .home-icon {
+             font-size: 1.5rem; /* Adjust size to fit button */
+             color: #00ff8c; /* Match the vibrant green */
+             display: block; /* Make it a block element to center easily */
+             margin: 0 auto; /* Center the icon horizontally */
+        }
+
+         /* Style for the word game icon in the header */
+        .word-game-icon {
              font-size: 1.5rem; /* Adjust size to fit button */
              color: #00ff8c; /* Match the vibrant green */
              display: block; /* Make it a block element to center easily */
@@ -459,8 +449,18 @@
              display: flex; /* Use flexbox to center icon/text if needed */
              align-items: center;
              justify-content: flex-start; /* Align icon to the left within its container */
-             /* Removed width: 100% and margin-bottom here */
+             font-size: 1.5rem; /* Adjust font size for the title */
+             font-weight: 700; /* Bold font for the title */
+             color: #f0f0f0; /* Light color for the title */
+             animation: color-pulse-dark 2s infinite alternate; /* Apply animation to the title */
          }
+
+         /* Simple color pulse animation for dark mode (Copied from index.html) */
+         @keyframes color-pulse-dark {
+             0%, 100% { color: #f0f0f0; } /* Light text */
+             50% { color: #cccccc; } /* Slightly darker light text */
+         }
+
 
          header nav {
              margin-bottom: 0; /* Remove bottom margin from nav */
@@ -471,7 +471,6 @@
              justify-content: flex-end; /* Push nav contents to the right */
              min-width: 0;
              flex-wrap: wrap; /* Allow ul to wrap */
-             /* Removed width: 100% here */
              gap: 10px; /* Add gap between nav items */
          }
 
@@ -513,17 +512,68 @@
               }
          }
 
+         /* Specific styles for the game icons within dropdown links */
+         .game-icon-nav {
+             font-size: 1.2em; /* Adjust size as needed */
+             margin-right: 5px; /* Space between icon and text */
+         }
+
+         /* Styles for the Game Play dropdown (Copied from index.html) */
+        .game-dropdown {
+            position: relative; /* Needed for absolute positioning of the dropdown content */
+            display: inline-block; /* Allows the dropdown to sit next to other nav items */
+        }
+
+        .game-dropdown-content {
+            display: none; /* Hidden by default */
+            position: absolute;
+            background-color: #1a1a1a; /* Match dark background */
+            box-shadow: 4px 4px 8px #0d0d0d,
+                        -4px -4px 8px #272727;
+            border-radius: 12px; /* Match button border radius */
+            min-width: 160px; /* Minimum width for the dropdown */
+            z-index: 1; /* Ensure it appears above other content */
+            top: 100%; /* Position below the button */
+            left: 0; /* Align to the left of the button */
+            padding: 10px 0; /* Vertical padding */
+        }
+
+        .game-dropdown-content a {
+            color: #00ff8c; /* Vibrant green text */
+            padding: 10px 20px; /* Padding for dropdown links */
+            text-decoration: none;
+            display: block; /* Make links block elements */
+            text-align: left; /* Align text to the left */
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .game-dropdown-content a:hover {
+            background-color: #2a2a2a; /* Slightly lighter dark background on hover */
+            color: #f0f0f0; /* Lighter text on hover */
+        }
+
+        /* Show the dropdown content when the parent has the 'active' class */
+        .game-dropdown.active .game-dropdown-content {
+            display: block;
+        }
+
     </style>
 </head>
 <body>
 
-    <header>
+    <header class="container mx-auto my-8 p-6 flex flex-col md:flex-row justify-between items-center">
         <div class="header-title">
-             <i class="ph ph-game-controller game-icon"></i> </div>
-        <nav>
-            <ul>
-                <li><a href="index.html" class="neumorphic-button"><i class="ph ph-house home-icon"></i></a></li>
-                </ul>
+             Asef Salehi </div>
+        <nav class="mb-4 md:mb-0 flex items-center">
+            <ul class="flex space-x-6 md:space-x-6">
+                <li><a href="index.html" class="neumorphic-button">Home</a></li>
+                <li class="game-dropdown">
+                    <button class="neumorphic-button" id="gamePlayButton">Game Play</button>
+                    <div class="game-dropdown-content">
+                        <a href="word.html"><i class="ph ph-game-controller game-icon-nav"></i> Word Guess</a>
+                    </div>
+                </li>
+                 </ul>
             </nav>
     </header>
 
@@ -566,7 +616,7 @@
     </div>
 
     <script>
-        // JavaScript for the game logic
+        // JavaScript for the game logic and dropdown
 
         let secretNumber; // The number the user needs to guess
         let attempts; // Counter for the number of guesses
@@ -582,6 +632,21 @@
         const restartButton = document.getElementById('restartGame');
         const keyboard = document.getElementById('keyboard');
         const winningNumberAnimationElement = document.getElementById('winningNumberAnimation'); // Element for the animation
+
+        // Game Play Dropdown functionality (Copied from index.html)
+        const gamePlayButton = document.getElementById('gamePlayButton');
+        const gameDropdown = gamePlayButton.parentElement; // The parent li element
+
+        gamePlayButton.addEventListener('click', function() {
+            gameDropdown.classList.toggle('active'); // Toggle the 'active' class on the parent li
+        });
+
+        // Close the dropdown if the user clicks outside of it
+        window.addEventListener('click', function(event) {
+            if (!gameDropdown.contains(event.target)) {
+                gameDropdown.classList.remove('active');
+            }
+        });
 
 
         // Function to start a new game

@@ -1,0 +1,37 @@
+[
+  {
+    "category": "Programming",
+    "words": [
+      "JAVASCRIPT", "PYTHON", "HTML", "CSS", "REACT", "ANGULAR", "VUEJS", "NODEJS", "DATABASE", "ALGORITHM",
+      "VARIABLE", "FUNCTION", "LOOP", "ARRAY", "OBJECT", "STRING", "BOOLEAN", "INTEGER", "FRAMEWORK", "LIBRARY"
+    ]
+  },
+  {
+    "category": "Animals",
+    "words": [
+      "ELEPHANT", "TIGER", "ZEBRA", "GIRAFFE", "LION", "MONKEY", "PENGUIN", "DOLPHIN", "KANGAROO", "BUTTERFLY",
+      "BEAR", "WOLF", "FOX", "DEER", "OWL", "EAGLE", "SHARK", "WHALE", "SNAKE", "TURTLE"
+    ]
+  },
+  {
+    "category": "Fruits",
+    "words": [
+      "APPLE", "BANANA", "ORANGE", "GRAPE", "STRAWBERRY", "MANGO", "PINEAPPLE", "WATERMELON", "KIWI", "PEACH",
+      "BLUEBERRY", "RASPBERRY", "LEMON", "LIME", "PEAR", "CHERRY", "PLUM", "APRICOT", "AVOCADO", "COCONUT"
+    ]
+  },
+  {
+    "category": "Countries",
+    "words": [
+      "NORWAY", "CANADA", "JAPAN", "BRAZIL", "INDIA", "FRANCE", "GERMANY", "AUSTRALIA", "MEXICO", "EGYPT",
+      "CHINA", "RUSSIA", "ITALY", "SPAIN", "GREECE", "SWEDEN", "POLAND", "TURKEY", "KOREA", "ARGENTINA"
+    ]
+  },
+  {
+    "category": "Capitals",
+    "words": [
+      "OSLO", "OTTAWA", "TOKYO", "BRASILIA", "DELHI", "PARIS", "BERLIN", "CANBERRA", "MEXICOCITY", "CAIRO",
+      "BEIJING", "MOSCOW", "ROME", "MADRID", "ATHENS", "STOCKHOLM", "WARSAW", "ANKARA", "SEOUL", "BUENOSAIRES"
+    ]
+  }
+]

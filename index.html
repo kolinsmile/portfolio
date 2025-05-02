@@ -132,14 +132,16 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Shimmer animation */
-        @keyframes shimmer {
-            0% {
-                background-position: -200% 0;
-            }
-            100% {
-                background-position: 200% 0;
-            }
+        /* Simple color pulse animation for light mode */
+        @keyframes color-pulse-light {
+            0%, 100% { color: #333; } /* Dark text */
+            50% { color: #555; } /* Slightly lighter dark text */
+        }
+
+        /* Simple color pulse animation for dark mode */
+        @keyframes color-pulse-dark {
+            0%, 100% { color: #f0f0f0; } /* Light text */
+            50% { color: #cccccc; } /* Slightly darker light text */
         }
 
 
@@ -595,24 +597,12 @@
 
         /* Style for the animated header text */
         header .text-2xl.font-bold {
-            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent); /* Light mode gradient */
-            background-size: 200% 100%;
-            background-repeat: no-repeat;
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shimmer 3s infinite linear; /* Apply shimmer animation */
+            animation: color-pulse-light 2s infinite alternate; /* Apply light mode animation by default */
         }
 
-         /* Dark mode gradient for shimmer */
+         /* Apply dark mode animation when dark mode is active */
          body.dark-mode header .text-2xl.font-bold {
-             background: linear-gradient(90deg, transparent, rgba(0, 255, 140, 0.6), transparent); /* Dark mode gradient */
-             background-size: 200% 100%;
-             background-repeat: no-repeat;
-             background-clip: text;
-             -webkit-background-clip: text;
-             -webkit-text-fill-color: transparent;
-             /* Animation is the same, just the background changes */
+             animation: color-pulse-dark 2s infinite alternate; /* Dark mode animation */
          }
     </style>
 </head>
@@ -644,7 +634,8 @@
                 <p>I am a passionate Python Developer and AI Engineer, new to the field but driven by the desire to learn and build innovative solutions. With 6 months of dedicated experience, I am actively working to make my dreams in technology a reality.</p>
                 <a href="#" class="neumorphic-button orange mt-6">Hire Me</a> </div>
             <div class="hero-image">
-                <img src="images/hero-image.jpg" alt="Asef Salehi"> </div>
+                <img src="images/1f3cb5c6-174a-47db-9ac2-80661f4ef7ed.jpg" alt="Asef Salehi">
+            </div>
         </section>
 
         <div class="content-grid">
@@ -860,7 +851,7 @@
 
                 if (customCursor) {
                     customCursor.style.left = `${cursorX}px`;
-                    customCursor.style.top = `${mouseY}px`;
+                    customCursor.style.top = `${cursorY}px`;
                 }
 
                 animationFrameId = requestAnimationFrame(animateCursor);

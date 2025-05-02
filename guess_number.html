@@ -208,7 +208,6 @@
         .game-icon {
             font-size: 2rem; /* Adjust size as needed */
             color: #00ff8c; /* Match the vibrant green */
-            margin-bottom: 1rem; /* Space below icon on small screens */
             flex-shrink: 0; /* Prevent icon from shrinking */
             /* Add a subtle pulse animation to the icon */
             animation: icon-pulse 2s infinite alternate ease-in-out;
@@ -447,19 +446,20 @@
              margin: 0 auto; /* Center the header */
              padding: 1.5rem; /* Adjust padding */
              display: flex;
-             flex-direction: column; /* Stack logo and nav vertically by default */
-             justify-content: center; /* Center items vertically */
-             align-items: center; /* Center items horizontally */
+             flex-direction: row; /* Always keep items in a row */
+             align-items: center; /* Vertically align items */
+             justify-content: space-between; /* Space out game icon and nav */
              flex-wrap: wrap; /* Allow header items to wrap if needed */
              box-sizing: border-box; /* Include padding in width */
+             gap: 1rem; /* Add gap between header items */
          }
 
          header .header-title { /* Use a class for the title/icon container */
-             margin-bottom: 1rem; /* Space below logo/icon on small screens */
              flex-shrink: 0; /* Prevent logo/icon from shrinking */
              display: flex; /* Use flexbox to center icon/text if needed */
              align-items: center;
-             justify-content: center;
+             justify-content: flex-start; /* Align icon to the left within its container */
+             /* Removed width: 100% and margin-bottom here */
          }
 
          header nav {
@@ -471,13 +471,13 @@
              justify-content: flex-end; /* Push nav contents to the right */
              min-width: 0;
              flex-wrap: wrap; /* Allow ul to wrap */
-             width: 100%;
+             /* Removed width: 100% here */
              gap: 10px; /* Add gap between nav items */
          }
 
          header nav ul {
              display: flex;
-             justify-content: center; /* Center buttons horizontally */
+             justify-content: flex-end; /* Push buttons to the right within the ul */
              flex-wrap: wrap;
              gap: 10px; /* Smaller gap for wrapped links */
              margin-right: 0; /* Remove right margin */
@@ -495,14 +495,12 @@
          /* Responsive adjustments for header on medium and larger screens */
          @media (min-width: 768px) {
               header {
-                  flex-direction: row; /* Items in a row */
-                  justify-content: space-between; /* Space out logo and nav */
-                  align-items: center; /* Vertically align items */
                   padding: 1.5rem 2rem; /* Adjust padding */
+                  gap: 1.5rem; /* Adjust gap for horizontal layout */
               }
 
               header .header-title { /* Use a class for the title/icon container */
-                  margin-bottom: 0; /* Remove bottom margin on larger screens */
+                   justify-content: flex-start; /* Ensure left alignment */
               }
 
               header nav {
@@ -617,10 +615,10 @@
             // Get the user's guess from the display and convert it to a number
             const userGuess = parseInt(currentGuessString);
 
-            // Validate the input - This check is still needed for robustness
+            // Validate the input - This check is still needed for a valid number range
             if (currentGuessString === '' || isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
-                // This message should ideally not be reached if the button is disabled when empty,
-                // but it's good to keep as a fallback.
+                 // This message should ideally not be reached if the button is disabled when empty,
+                 // but it's good to keep as a fallback for invalid number ranges.
                 messageElement.textContent = 'Please enter a valid number between 1 and 100.';
                  // Set message class for error color
                 messageElement.className = 'message text-base sm:text-lg text-red-600';

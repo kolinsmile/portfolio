@@ -10,105 +10,61 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            /* Default Light Theme (adjust if needed based on screenshot) */
-            background-color: #f0f2f5; /* Light background */
-            color: #333; /* Dark text */
+            /* Dark Theme as Default */
+            background-color: #1a1a1a; /* Dark background */
+            color: #f0f0f0; /* Light text */
             padding: 0;
             overflow-x: hidden; /* Prevent horizontal scroll */
-            transition: background-color 0.3s ease, color 0.3s ease;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            /* Initially keep default cursor visible */
+            /* Custom cursor is removed, so default cursor is always visible */
             cursor: auto;
         }
 
-        /* Hide default cursor when custom cursor is active */
-        body.custom-cursor-enabled {
-            cursor: none;
-        }
-
-        /* Dark Theme Body Styles (Matching Screenshot) */
-        body.dark-mode {
-            background-color: #1a1a1a; /* Dark background from screenshot */
-            color: #f0f0f0; /* Light text */
-        }
-
-        /* Custom styles for neumorphic effect (Light Theme) */
+        /* Custom styles for neumorphic effect (Dark Theme) */
         .neumorphic {
             border-radius: 20px; /* Rounded corners */
-            background: #f0f2f5; /* Match light background */
-            box-shadow: 8px 8px 16px #d1d9e6,
-                        -8px -8px 16px #ffffff;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            padding: 30px; /* Default padding */
-        }
-
-        /* Neumorphic styles for Dark Theme (Matching Screenshot) */
-        body.dark-mode .neumorphic {
             background: #1a1a1a; /* Match dark background */
             box-shadow: 6px 6px 12px #0d0d0d,
                         -6px -6px 12px #272727;
+            padding: 30px; /* Default padding */
         }
 
         .neumorphic-inset {
              border-radius: 15px; /* Rounded corners */
-             background: #f0f2f5; /* Match light background */
-             box-shadow: inset 5px 5px 10px #d1d9e6,
-                         inset -5px -5px 10px #ffffff;
-             transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-         body.dark-mode .neumorphic-inset {
              background: #1a1a1a; /* Match dark background */
              box-shadow: inset 4px 4px 8px #0d0d0d,
                          inset -4px -4px 8px #272727;
         }
 
-
         .neumorphic-button {
             border-radius: 12px; /* Rounded corners */
-            background: #f0f2f5; /* Match light background */
-            box-shadow: 5px 5px 10px #d1d9e6,
-                        -5px -5px 10px #ffffff;
+            background: #1a1a1a; /* Match dark background */
+            box-shadow: 4px 4px 8px #0d0d0d,
+                        -4px -4px 8px #272727;
             transition: all 0.2s ease;
-            color: #333; /* Default text color */
+            color: #00ff8c; /* Vibrant green text color */
             padding: 10px 20px; /* Button padding */
             font-weight: 500;
             display: inline-block;
             text-align: center;
             user-select: none;
-            /* Removed cursor: none; from here */
         }
 
-        /* Dark Mode Button Style (Matching Screenshot) */
-        body.dark-mode .neumorphic-button {
-            background: #1a1a1a; /* Match dark background */
-            box-shadow: 4px 4px 8px #0d0d0d,
-                        -4px -4px 8px #272727;
-            color: #00ff8c; /* Vibrant green text color */
-        }
-
-        /* Dark Mode Button Hover/Active (Matching Screenshot) */
-         body.dark-mode .neumorphic-button:hover {
+         /* Dark Mode Button Hover/Active */
+         .neumorphic-button:hover {
              box-shadow: 2px 2px 4px #0d0d0d,
                          -2px -2px 4px #272727;
          }
 
-          body.dark-mode .neumorphic-button:active {
+          .neumorphic-button:active {
             box-shadow: inset 2px 2px 4px #0d0d0d,
                          inset -2px -2px 4px #272727;
          }
 
-         /* Orange Button Style (Keeping for other uses if needed) */
+         /* Orange Button Style */
          .neumorphic-button.orange {
-             background: #ff8c00; /* Orange background */
-             box-shadow: 5px 5px 10px #cc7000,
-                         -5px -5px 10px #ffaa00;
-             color: #f0f0f0; /* Light text */
-         }
-
-         body.dark-mode .neumorphic-button.orange {
              background: #ff8c00; /* Orange background */
              box-shadow: 4px 4px 8px #cc7000,
                          -4px -4px 8px #272727;
@@ -132,12 +88,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Simple color pulse animation for light mode */
-        @keyframes color-pulse-light {
-            0%, 100% { color: #333; } /* Dark text */
-            50% { color: #555; } /* Slightly lighter dark text */
-        }
-
         /* Simple color pulse animation for dark mode */
         @keyframes color-pulse-dark {
             0%, 100% { color: #f0f0f0; } /* Light text */
@@ -154,51 +104,16 @@
             transform: translateY(20px);
         }
 
-        /* Styles for the theme toggle button */
-        #theme-toggle {
-            padding: 10px;
-            border-radius: 50%;
-            /* Using neumorphic-button styles */
-            width: 40px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.2rem;
-            /* Removed cursor: none; from here */
-        }
-
-         body.dark-mode #theme-toggle {
-             background: #1a1a1a;
-             box-shadow: 5px 5px 10px #0d0d0d,
-                         -5px -5px 10px #272727;
-             color: #00ff8c; /* Vibrant green color */
-         }
-
-         body.dark-mode #theme-toggle:hover {
-              box-shadow: 3px 3px 6px #0d0d0d,
-                          -3px -3px 6px #272727;
-         }
-
-          body.dark-mode #theme-toggle:active {
-            box-shadow: inset 2px 2px 4px #0d0d0d,
-                         inset -2px -2px 4px #272727;
-         }
-
-
-        /* Explicit Dark Mode Text Colors */
-        body.dark-mode h1,
-        body.dark-mode h2,
-        body.dark-mode h3 {
+        /* Explicit Dark Mode Text Colors (now default) */
+        h1, h2, h3 {
             color: #f0f0f0; /* Light gray for headings */
         }
 
-        body.dark-mode p,
-        body.dark-mode span {
+        p, span {
              color: #cccccc; /* Slightly darker light gray */
         }
 
-        body.dark-mode a {
+        a {
              color: #00ff8c; /* Vibrant green for links */
         }
 
@@ -242,46 +157,21 @@
 
         /* Style for the span within the h1 (AI Engineer) */
         .hero-text h1 span {
-            color: #3498db; /* A standard blue for light mode */
-        }
-
-        /* Dark mode color for the span */
-        body.dark-mode .hero-text h1 span {
             color: #00ff8c; /* Vibrant green for dark mode */
         }
 
 
         .hero-text p {
             font-size: 1.1rem;
-            color: #555;
+            color: #a0aec0; /* Adjusted color for dark mode */
             margin-bottom: 30px;
-        }
-
-        body.dark-mode .hero-text p {
-             color: #a0aec0;
-        }
-
-
-        .hero-image {
-            flex: 1; /* Take up available space */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .hero-image img {
-            max-width: 100%; /* Ensure image is responsive */
-            height: auto;
-            border-radius: 20px; /* Match neumorphic border radius */
-             /* Apply neumorphic effect to the image container if needed */
-            /* box-shadow: 8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff; */
         }
 
         /* Brands Section Styles (Removed) */
         /* .brands-section { ... } */
 
 
-        /* Main Content Grid Styles (Adjusting for the screenshot's layout) */
+        /* Main Content Grid Styles */
         .content-grid {
             display: grid;
             grid-template-columns: 1fr; /* Single column by default */
@@ -311,13 +201,8 @@
              display: flex;
              align-items: center;
              gap: 15px;
-             color: #333; /* Default text color */
-        }
-
-         body.dark-mode .section-title {
              color: #f0f0f0; /* Light text in dark mode */
-         }
-
+        }
 
          .section-content {
             margin-top: 0;
@@ -335,7 +220,6 @@
          .project-card {
              /* Inherits neumorphic styles */
              padding: 20px;
-             /* Removed cursor: none; from here */
          }
 
          .project-card img {
@@ -347,32 +231,18 @@
              font-size: 1.25rem;
              font-weight: 600;
              margin-bottom: 10px;
-             color: #333; /* Default text color */
-         }
-
-          body.dark-mode .project-card h3 {
              color: #f0f0f0; /* Light text in dark mode */
          }
 
-
          .project-card p {
              font-size: 0.9rem;
-             color: #555;
+             color: #a0aec0; /* Adjusted color for dark mode */
              margin-bottom: 15px;
          }
-
-          body.dark-mode .project-card p {
-             color: #a0aec0;
-         }
-
 
          .project-card a {
              font-size: 0.9rem;
              font-weight: 500;
-             color: #3498db; /* Link color */
-         }
-
-          body.dark-mode .project-card a {
              color: #00ff8c; /* Vibrant green link color */
          }
 
@@ -384,74 +254,6 @@
         .project-card:focus {
             outline: 2px solid #00ff8c; /* Vibrant green outline on focus */
             outline-offset: 3px;
-        }
-
-        body.dark-mode a:focus,
-        body.dark-mode button:focus,
-        body.dark-mode .neumorphic-button:focus,
-        .project-card:focus {
-             outline-color: #00ff8c; /* Vibrant green outline in dark mode */
-        }
-
-        /* Custom Cursor Styles */
-        .custom-cursor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 20px; /* Size of the cursor */
-            height: 20px; /* Size of the cursor */
-            border: 2px solid #00ff8c; /* Vibrant green border */
-            border-radius: 50%; /* Circular shape */
-            pointer-events: none; /* Allow clicks to pass through */
-            transform: translate(-50%, -50%); /* Center the cursor */
-            transition: transform 0.1s ease; /* Faster transform transition for movement */
-            z-index: 9999; /* Ensure it's on top */
-            opacity: 0; /* Initially hidden */
-        }
-
-        body.dark-mode .custom-cursor {
-            border-color: #00ff8c; /* Vibrant green border in dark mode */
-        }
-
-        /* Cursor style when hovering over interactive elements */
-        .custom-cursor.interactive {
-            width: 25px; /* Slightly smaller interactive size */
-            height: 25px; /* Slightly smaller interactive size */
-            border-color: #ff0040; /* Reddish color for interactive */
-             /* Added transform scale for interactive state */
-            transform: translate(-50%, -50%) scale(1.2);
-        }
-
-        /* Particle Styles */
-        .cursor-particle {
-            position: fixed;
-            top: 0; /* Added top and left for initial positioning */
-            left: 0;
-            width: 6px; /* Size of particles */
-            height: 6px; /* Size of particles */
-            background-color: #00ff8c; /* Vibrant green color for particles */
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            opacity: 1;
-            z-index: 9998; /* Below the main cursor */
-            animation: particleFadeOut 1s ease-out forwards; /* Particle animation */
-        }
-
-        body.dark-mode .cursor-particle {
-            background-color: #00ff8c; /* Vibrant green color for particles in dark mode */
-        }
-
-
-        @keyframes particleFadeOut {
-            0% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.5) translateY(20px); /* Fade out and move down slightly */
-            }
         }
 
         /* Added style to ensure text wraps in statistic boxes */
@@ -525,21 +327,12 @@
                 min-width: 0;
                 flex-shrink: 0;
                 margin-bottom: 0; /* Remove bottom margin */
-                 /* width: 100%; Removed this to allow wrapping side-by-side */
             }
 
             header nav ul li {
                  margin-bottom: 0;
                  flex-basis: auto;
                  width: auto;
-            }
-
-            #theme-toggle {
-                margin-top: 0;
-                margin-left: 0;
-                 flex-shrink: 0;
-                 margin-bottom: 0;
-                 /* width: 100%; Removed this to allow wrapping side-by-side */
             }
 
             /* Hide custom cursor and particles on small screens */
@@ -553,65 +346,6 @@
             }
         }
 
-        /* Styles for very small screens (up to 383px) */
-        @media (max-width: 383px) {
-             header .text-2xl.font-bold {
-                 font-size: 1.8rem; /* Slightly reduce font size */
-             }
-
-             header nav ul {
-                 gap: 8px; /* Reduce gap between buttons */
-             }
-
-             header nav ul li .neumorphic-button {
-                 padding: 8px 15px; /* Reduce button padding */
-                 font-size: 0.9rem; /* Reduce button font size */
-             }
-
-             #theme-toggle {
-                 width: 35px; /* Reduce theme toggle size */
-                 height: 35px;
-                 font-size: 1rem; /* Reduce theme toggle icon size */
-             }
-
-             /* Adjust padding on the header itself */
-             header {
-                 padding: 0.8rem;
-             }
-
-             /* Adjust padding on the main content container */
-             .main-content-container {
-                 padding: 0 10px;
-             }
-
-             /* Further reduce padding on neumorphic sections if needed */
-             .neumorphic {
-                 padding: 20px;
-             }
-
-             /* Adjust font size in hero section if needed */
-             .hero-text h1 {
-                 font-size: 2.5rem;
-             }
-
-             .hero-text p {
-                 font-size: 1rem;
-             }
-
-             /* Adjust statistics box padding if needed */
-             #statistics .section-content .neumorphic {
-                 padding: 15px;
-             }
-
-             #statistics .section-content .neumorphic .text-4xl {
-                 font-size: 3rem;
-             }
-
-             #statistics .section-content .neumorphic .text-lg {
-                 font-size: 0.9rem;
-             }
-        }
-
 
         /* Styles for header on medium and larger screens */
         @media (min-width: 768px) {
@@ -619,7 +353,7 @@
                  /* Ensure header is a flex container */
                  display: flex;
                  flex-direction: row; /* Items in a row */
-                 justify-content: space-between; /* Space out logo and nav/toggle */
+                 justify-content: space-between; /* Space out logo and nav */
                  align-items: center; /* Vertically align items */
              }
 
@@ -635,10 +369,6 @@
                  display: flex; /* Make ul a flex container */
                  gap: 1.5rem; /* Add space between nav links */
                  margin-bottom: 0; /* Remove potential bottom margin */
-             }
-
-             #theme-toggle {
-                 margin-left: 0; /* Remove potential left margin */
              }
 
              /* Show courses section on medium screens and up */
@@ -664,18 +394,11 @@
 
         /* Style for the animated header text */
         header .text-2xl.font-bold {
-            animation: color-pulse-light 2s infinite alternate; /* Apply light mode animation by default */
+            animation: color-pulse-dark 2s infinite alternate; /* Apply dark mode animation */
         }
-
-         /* Apply dark mode animation when dark mode is active */
-         body.dark-mode header .text-2xl.font-bold {
-             animation: color-pulse-dark 2s infinite alternate; /* Dark mode animation */
-         }
     </style>
 </head>
 <body>
-
-    <div class="custom-cursor"></div>
 
     <header class="container mx-auto my-8 p-6 flex flex-col md:flex-row justify-between items-center">
         <div class="mb-4 md:mb-0 text-2xl font-bold">Asef Salehi</div>
@@ -686,16 +409,14 @@
                 <li class="hidden md:block"><a href="#courses" class="neumorphic-button">Courses</a></li>
                 <li><a href="#contact" class="neumorphic-button">Contact Us</a></li>
             </ul>
-             <button id="theme-toggle" class="neumorphic-button" aria-label="Toggle Theme">
-                 ☀️ </button>
-        </nav>
+            </nav>
     </header>
 
     <div class="main-content-container">
 
         <section class="hero-section section-hidden">
             <div class="hero-text">
-                <p class="text-lg text-gray-600 dark-mode:text-gray-400">Hy ! I Am</p>
+                <p class="text-lg">Hy ! I Am</p>
                 <h1>Asef Salehi</h1>
                 <h1>Python Developer and <span>AI Engineer</span></h1>
                 <p>I am a passionate Python Developer and AI Engineer, new to the field but driven by the desire to learn and build innovative solutions. With 6 months of dedicated experience, I am actively working to make my dreams in technology a reality.</p>
@@ -774,7 +495,7 @@
     </div>
 
 
-    <footer class="container mx-auto my-8 p-6 text-center text-gray-600 dark-mode:text-gray-400">
+    <footer class="container mx-auto my-8 p-6 text-center text-gray-600">
         <p>&copy; 2025 Asef Salehi. All rights reserved.</p>
     </footer>
 
@@ -801,216 +522,7 @@
             });
         });
 
-        // JavaScript for theme switching
-        document.addEventListener('DOMContentLoaded', () => {
-            const themeToggle = document.getElementById('theme-toggle');
-            const body = document.body;
-            const currentTheme = localStorage.getItem('theme');
-
-            // Apply saved theme on load
-            if (currentTheme === 'dark') {
-                body.classList.add('dark-mode');
-                themeToggle.textContent = '🌙'; // Moon icon for dark mode
-            } else {
-                 themeToggle.textContent = '☀️'; // Sun icon for light mode
-            }
-
-            // Toggle theme on button click
-            themeToggle.addEventListener('click', () => {
-                body.classList.toggle('dark-mode');
-
-                // Update button icon based on theme
-                if (body.classList.contains('dark-mode')) {
-                    themeToggle.textContent = '🌙';
-                    localStorage.setItem('theme', 'dark'); // Save preference
-                } else {
-                    localStorage.setItem('theme', 'light'); // Save preference
-                }
-            });
-        });
-
-        // JavaScript for custom cursor and particle trail
-        document.addEventListener('DOMContentLoaded', () => {
-            const customCursor = document.querySelector('.custom-cursor');
-            const interactiveElements = document.querySelectorAll('a, button, input[type="submit"], input[type="button"], label, .neumorphic-button, .project-card');
-            let mouseX = 0;
-            let mouseY = 0;
-            let cursorX = 0;
-            let cursorY = 0;
-            let speed = 0.8;
-            let animationFrameId = null;
-            let particleIntervalId = null; // To store the particle creation interval ID
-
-            // Function to check if it's a mobile device (based on screen width)
-            function isMobile() {
-                return window.innerWidth < 768; // Tailwind's md breakpoint
-            }
-
-            // Function to start the cursor animation and particle creation
-            function startCursorAnimation() {
-                 // Only start if not on mobile
-                 if (!isMobile()) {
-                     if (!animationFrameId) {
-                         animateCursor();
-                     }
-                     if (!particleIntervalId) {
-                          particleIntervalId = setInterval(createParticle, 30);
-                     }
-                     if (customCursor) {
-                         customCursor.style.opacity = 1;
-                         document.body.classList.add('custom-cursor-enabled');
-                     }
-                 }
-            }
-
-            // Function to stop the cursor animation and particle creation
-            function stopCursorAnimation() {
-                 if (animationFrameId) {
-                     cancelAnimationFrame(animationFrameId);
-                     animationFrameId = null;
-                 }
-                 if (particleIntervalId) {
-                     clearInterval(particleIntervalId);
-                     particleIntervalId = null;
-                 }
-                 if (customCursor) {
-                     customCursor.style.opacity = 0;
-                     document.body.classList.remove('custom-cursor-enabled');
-                 }
-                 // Remove any existing particles
-                 document.querySelectorAll('.cursor-particle').forEach(particle => particle.remove());
-            }
-
-
-            // Update mouse position
-            document.addEventListener('mousemove', (e) => {
-                if (isMobile()) {
-                    // If on mobile, stop and don't update cursor position
-                    stopCursorAnimation();
-                    return;
-                }
-
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-
-                // Initialize cursor position on the very first mouse move (only on non-mobile)
-                if (cursorX === 0 && cursorY === 0) {
-                    cursorX = mouseX;
-                    cursorY = mouseY;
-                     if (customCursor) {
-                         customCursor.style.left = `${mouseX}px`;
-                         customCursor.style.top = `${mouseY}px`;
-                     }
-                }
-
-                // Start the cursor animation loop and particle creation if not running and not mobile
-                if (!animationFrameId && !isMobile()) {
-                    startCursorAnimation();
-                }
-
-            });
-
-            function animateCursor() {
-                let distX = mouseX - cursorX;
-                let distY = mouseY - cursorY;
-                cursorX = cursorX + (distX * speed);
-                cursorY = cursorY + (distY * speed);
-
-                if (customCursor) {
-                    customCursor.style.left = `${cursorX}px`;
-                    customCursor.style.top = `${cursorY}px`;
-                }
-
-                animationFrameId = requestAnimationFrame(animateCursor);
-            }
-
-            // Function to create a particle element
-            function createParticle() {
-                 // Only create particles if not on mobile
-                if (isMobile()) {
-                    return;
-                }
-
-                const particle = document.createElement('div');
-                particle.classList.add('cursor-particle');
-                document.body.appendChild(particle);
-
-                // Set initial position to the current cursor position
-                particle.style.left = `${cursorX}px`;
-                particle.style.top = `${cursorY}px`;
-
-                // Remove the particle element after its animation finishes
-                particle.addEventListener('animationend', () => {
-                    // Check if the particle element still exists before removing
-                    if (particle.parentNode) {
-                       particle.parentNode.removeChild(particle);
-                    }
-                });
-                 // Also add a timeout to remove particles in case animationend doesn't fire
-                 setTimeout(() => {
-                     if (particle.parentNode) {
-                         particle.parentNode.removeChild(particle);
-                     }
-                 }, 1500); // Remove after 1.5 seconds (slightly longer than animation duration)
-
-            }
-
-
-            // Add interactive class on hover (only on non-mobile)
-            interactiveElements.forEach(element => {
-                element.addEventListener('mouseenter', () => {
-                    if (customCursor && !isMobile()) {
-                        customCursor.classList.add('interactive');
-                    }
-                });
-                element.addEventListener('mouseleave', () => {
-                     if (customCursor && !isMobile()) {
-                        customCursor.classList.remove('interactive');
-                     }
-                });
-            });
-
-            // Hide custom cursor when mouse leaves the document (only relevant on non-mobile)
-            document.addEventListener('mouseleave', () => {
-                 if (customCursor && !isMobile()) {
-                     customCursor.style.opacity = 0;
-                     document.body.classList.remove('custom-cursor-enabled'); // Show default cursor
-                 }
-                 // Stop the animation loop and particle creation when mouse leaves (on non-mobile)
-                 if (!isMobile()) {
-                     stopCursorAnimation();
-                 }
-            });
-
-            // Show custom cursor when mouse enters the document (only relevant on non-mobile)
-             document.addEventListener('mouseenter', () => {
-                 if (customCursor && !isMobile()) {
-                     customCursor.style.opacity = 1;
-                     document.body.classList.add('custom-cursor-enabled'); // Hide default cursor
-                     // Restart the animation loop and particle creation when mouse enters (on non-mobile)
-                     if (!animationFrameId && !isMobile()) {
-                         startCursorAnimation();
-                     }
-                 }
-             });
-
-             // Handle initial state and window resize
-             function handleResize() {
-                 if (isMobile()) {
-                     stopCursorAnimation();
-                 } else {
-                     // Restart animation if needed when resizing from mobile to desktop
-                     startCursorAnimation();
-                 }
-             }
-
-             // Check initial state on load
-             handleResize();
-
-             // Add event listener for window resize
-             window.addEventListener('resize', handleResize);
-
-        });
+        // Theme switching and custom cursor JavaScript removed
     </script>
 
 </body>

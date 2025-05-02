@@ -163,24 +163,75 @@
             font-family: 'Inter', sans-serif; /* Using Inter font */
         }
 
-        h1 {
-            color: #f0f0f0; /* Match portfolio heading color */
+        /* CSS for the game title with animation */
+        #gameTitle {
+            color: #f0f0f0; /* Starting color */
             margin-bottom: 1.5rem; /* Increased space below heading */
             font-weight: 700; /* Inter Bold - Matches portfolio headings */
-             font-size: 1.8em; /* Increased base font size */
+            font-size: 1.8em; /* Increased base font size */
+            animation: intelligent-color-pulse 4s infinite alternate ease-in-out; /* Apply the new animation with adjusted timing */
         }
 
          /* Responsive font size for heading */
         @media (min-width: 640px) { /* Small screens and up */
-            h1 {
+            #gameTitle {
                 font-size: 2em; /* Slightly larger on small screens */
             }
         }
 
         @media (min-width: 768px) { /* Medium screens and up */
-            h1 {
+            #gameTitle {
                 font-size: 2.2em; /* Even larger on medium screens and up */
             }
+        }
+
+        /* Keyframes for the intelligent color pulse animation - Updated colors and stops */
+        @keyframes intelligent-color-pulse {
+            0% {
+                color: #f0f0f0; /* Start with the default light text color */
+            }
+            25% {
+                color: #ff8c00; /* Orange */
+            }
+            50% {
+                color: #e91e63; /* Pink */
+            }
+            75% {
+                color: #2196f3; /* Blue */
+            }
+            100% {
+                 color: #f0f0f0; /* Return to the default light text color */
+            }
+        }
+
+        /* Style for the game icon in the header */
+        .game-icon {
+            font-size: 2rem; /* Adjust size as needed */
+            color: #00ff8c; /* Match the vibrant green */
+            margin-bottom: 1rem; /* Space below icon on small screens */
+            flex-shrink: 0; /* Prevent icon from shrinking */
+            /* Add a subtle pulse animation to the icon */
+            animation: icon-pulse 2s infinite alternate ease-in-out;
+        }
+
+        /* Keyframes for the icon pulse animation */
+        @keyframes icon-pulse {
+             0% {
+                 color: #00ff8c; /* Starting color */
+                 transform: scale(1);
+             }
+             100% {
+                 color: #4ade80; /* Slightly lighter green */
+                 transform: scale(1.05); /* Slightly larger */
+             }
+        }
+
+        /* Style for the home icon in the header */
+        .home-icon {
+             font-size: 1.5rem; /* Adjust size to fit button */
+             color: #00ff8c; /* Match the vibrant green */
+             display: block; /* Make it a block element to center easily */
+             margin: 0 auto; /* Center the icon horizontally */
         }
 
 
@@ -403,11 +454,12 @@
              box-sizing: border-box; /* Include padding in width */
          }
 
-         header .text-2xl.font-bold {
-             margin-bottom: 1rem; /* Space below logo on small screens */
-             flex-shrink: 0; /* Prevent logo from shrinking */
-             animation: color-pulse-dark 2s infinite alternate; /* Apply dark mode animation */
-             color: #f0f0f0; /* Light text color for the title */
+         header .header-title { /* Use a class for the title/icon container */
+             margin-bottom: 1rem; /* Space below logo/icon on small screens */
+             flex-shrink: 0; /* Prevent logo/icon from shrinking */
+             display: flex; /* Use flexbox to center icon/text if needed */
+             align-items: center;
+             justify-content: center;
          }
 
          header nav {
@@ -449,7 +501,7 @@
                   padding: 1.5rem 2rem; /* Adjust padding */
               }
 
-              header .text-2xl.font-bold {
+              header .header-title { /* Use a class for the title/icon container */
                   margin-bottom: 0; /* Remove bottom margin on larger screens */
               }
 
@@ -468,22 +520,23 @@
 <body>
 
     <header>
-        <div class="text-2xl font-bold">Asef Salehi</div>
+        <div class="header-title">
+             <i class="ph ph-game-controller game-icon"></i> </div>
         <nav>
             <ul>
-                <li><a href="index.html" class="neumorphic-button">Home</a></li>
+                <li><a href="index.html" class="neumorphic-button"><i class="ph ph-house home-icon"></i></a></li>
                 </ul>
             </nav>
     </header>
 
     <p class="welcome-text">
         Welcome to the Guess the Number game! I'm thinking of a number between 1 and 100.
-        Use the keyboard below to enter your guess. You have 10 attempts. Good luck!
+        Use the keyboard below to enter your guess. You have 8 attempts. Good luck!
     </p>
 
     <div class="game-wrapper">
         <div class="game-info-container" id="gameInfoContainer">
-             <h1 class="text-xl sm:text-2xl font-bold">Guess the Number!</h1>
+             <h1 id="gameTitle" class="text-xl sm:text-2xl font-bold">Guess the Number!</h1>
             <div id="guessDisplay" class="guess-display text-xl sm:text-2xl"></div>
 
             <div id="winningNumberAnimation" class="winning-number-animation"></div>
@@ -519,7 +572,7 @@
 
         let secretNumber; // The number the user needs to guess
         let attempts; // Counter for the number of guesses
-        let maxAttempts = 10; // Maximum number of attempts allowed
+        let maxAttempts = 8; // Changed maximum attempts to 8
         let currentGuessString = ''; // String to build the guess from keyboard input
         let previousGuesses = []; // Array to store previous guesses
 
@@ -543,13 +596,11 @@
 
             // Reset the display
             guessDisplay.textContent = '';
-            messageElement.textContent = '';
-            guessesElement.textContent = `Attempts: 0/${maxAttempts}`; // Display attempts limit
+            guessesElement.textContent = `Attempts: 0/${maxAttempts}`; // Updated attempts display
             previousGuessesElement.textContent = ''; // Clear previous guesses display
+            messageElement.textContent = ''; // Clear any previous message
+            messageElement.className = 'message text-base sm:text-lg'; // Reset message class
             submitButton.disabled = true; // Disable submit button initially
-            // restartButton.classList.add('hidden'); // Keep restart button visible
-            // Reset message class - remove specific color classes
-            messageElement.className = 'message text-base sm:text-lg';
 
             // Ensure animation element is hidden and reset
             winningNumberAnimationElement.textContent = '';

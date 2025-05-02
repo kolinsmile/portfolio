@@ -7,8 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-     <style>
+     <script src="https://unpkg.com/@phosphor-icons/web"></script> <style>
         body {
             font-family: 'Inter', sans-serif;
             /* Dark Theme as Default */
@@ -342,12 +341,13 @@
                 flex-wrap: wrap; /* Allow header items to wrap if needed */
             }
 
-            header .mb-4.md\:mb-0 {
+            header .header-title { /* Use the new class for the title */
                  margin-bottom: 20px; /* Increased bottom margin */
                  flex-shrink: 0; /* Prevent logo from shrinking */
                  padding-left: 10px; /* Added left padding */
                  padding-right: 10px; /* Added right padding */
             }
+
 
             header nav {
                 margin-bottom: 0; /* Remove bottom margin from nav */
@@ -421,27 +421,15 @@
              }
         }
 
-        /* Added mobile-specific styles for the contact buttons container */
-        #contact .section-content > div {
-            display: flex; /* Use flexbox for the buttons */
-            flex-wrap: wrap; /* Allow buttons to wrap to the next line */
-            gap: 10px; /* Add space between buttons */
-            justify-content: center; /* Center buttons when they wrap */
-        }
-
-        /* Added mobile-specific styles for individual contact buttons */
-        #contact .section-content a.neumorphic-button {
-            flex-grow: 1; /* Allow buttons to grow to fill space */
-            flex-basis: 0; /* Allow buttons to shrink */
-            min-width: 100px; /* Minimum width for buttons before wrapping */
-        }
-
-        /* Style for the animated header text */
-        header .text-2xl.font-bold {
+        /* Style for the animated header text (Now applied to .header-title) */
+        header .header-title {
             animation: color-pulse-dark 2s infinite alternate; /* Apply dark mode animation */
+            font-size: 1.5rem; /* Adjust font size for the title */
+            font-weight: 700; /* Bold font for the title */
+            color: #f0f0f0; /* Light color for the title */
         }
 
-        /* Specific styles for the game icons in the header */
+        /* Specific styles for the game icons within dropdown links */
         .game-icon-nav {
             font-size: 1.2em; /* Adjust size as needed */
             margin-right: 5px; /* Space between icon and text */
@@ -486,21 +474,38 @@
             display: block;
         }
 
+        /* Adjusted styles for the contact buttons container to ensure wrapping */
+        #contact .section-content > div {
+            display: flex; /* Use flexbox for the buttons */
+            flex-wrap: wrap; /* Allow buttons to wrap to the next line */
+            gap: 10px; /* Add space between buttons */
+            justify-content: center; /* Center buttons when they wrap */
+        }
+
+        /* Adjusted styles for individual contact buttons to allow shrinking */
+        #contact .section-content a.neumorphic-button {
+            flex-grow: 1; /* Allow buttons to grow to fill space */
+            flex-basis: 0; /* Allow buttons to shrink */
+            min-width: 100px; /* Minimum width for buttons before wrapping */
+            /* Ensure text wraps within the button if needed */
+            white-space: normal;
+            word-break: break-word;
+        }
+
+
     </style>
 </head>
 <body>
 
     <header class="container mx-auto my-8 p-6 flex flex-col md:flex-row justify-between items-center">
-        <div class="mb-4 md:mb-0 text-2xl font-bold">Asef Salehi</div>
-        <nav class="mb-4 md:mb-0 flex items-center">
+        <div class="header-title">Asef Salehi</div> <nav class="mb-4 md:mb-0 flex items-center">
             <ul class="flex space-x-6 md:space-x-6">
-                <li><a href="#" class="neumorphic-button">Home</a></li>
+                <li><a href="index.html" class="neumorphic-button">Home</a></li>
                 <li class="game-dropdown">
                     <button class="neumorphic-button" id="gamePlayButton">Game Play</button>
                     <div class="game-dropdown-content">
                         <a href="guess_number.html"><i class="ph ph-game-controller game-icon-nav"></i> Number Guess</a>
-                        <a href="word.html"><i class="ph ph-text-aa game-icon-nav"></i> Word Guess</a>
-                    </div>
+                        <a href="word.html"><i class="ph ph-game-controller game-icon-nav"></i> Word Guess</a> </div>
                 </li>
                 <li class="hidden md:block"><a href="#courses" class="neumorphic-button">Courses</a></li>
                 <li><a href="#contact" class="neumorphic-button">Contact Us</a></li>

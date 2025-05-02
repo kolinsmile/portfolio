@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Word</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* Base styles for Dark Neumorphic Theme */
+        body {
+            font-family: 'Inter', sans-serif; /* Using Inter font for consistency */
+            background-color: #1a1a1a; /* Dark background */
+            color: #f0f0f0; /* Light text - base color for body */
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: flex; /* Use flexbox for the main body content */
+            flex-direction: column; /* Stack header and main content vertically */
+            align-items: center; /* Center content horizontally */
+            min-height: 100vh;
+             padding-top: 1rem; /* Add padding at the top to prevent header overlap */
+             box-sizing: border-box; /* Include padding in height */
+        }
+
+        /* Custom styles for neumorphic effect (Dark Theme) */
+        .neumorphic {
+            border-radius: 20px; /* Rounded corners */
+            background: #1a1a1a; /* Match dark background */
+            box-shadow: 6px 6px 12px #0d0d0d,
+                        -6px -6px 12px #272727;
+            padding: 30px; /* Default padding */
+        }
+
+        .neumorphic-inset {
+             border-radius: 15px; /* Rounded corners */
+             background: #1a1a1a; /* Match dark background */
+             box-shadow: inset 4px 4px 8px #0d0d0d,
+                         inset -4px -4px 8px #272727;
+        }
+
+        .neumorphic-button {
+            border-radius: 12px; /* Rounded corners */
+            background: #1a1a1a; /* Match dark background */
+            box-shadow: 4px 4px 8px #0d0d0d,
+                        -4px -4px 8px #272727;
+            transition: all 0.2s ease;
+            color: #00ff8c; /* Vibrant green text color - for button text */
+            padding: 10px 20px; /* Button padding */
+            font-weight: 500; /* Inter Medium - Matches portfolio buttons */
+            display: inline-block;
+            text-align: center;
+            user-select: none;
+        }
+
+         /* Dark Mode Button Hover/Active */
+         .neumorphic-button:hover {
+             box-shadow: 2px 2px 4px #0d0d0d,
+                         -2px -2px 4px #272727;
+         }
+
+          .neumorphic-button:active {
+            box-shadow: inset 2px 2px 4px #0d0d0d,
+                         inset -2px -2px 4px #272727;
+         }
+
+         /* Orange Button Style (for the "GUESS" button - not used in word game but keeping style) */
+         .neumorphic-button.orange {
+             background: #ff8c00; /* Orange background */
+             box-shadow: 4px 4px 8px #cc7000,
+                         -4px -4px 8px #272727;
+             color: #1a1a1a; /* Dark text for contrast */
+         }
+
+         .neumorphic-button.orange:hover {
+              box-shadow: 3px 3px 6px #cc7000,
+                          -3px -3px 6px #ffaa00;
+         }
+
+         .neumorphic-button.orange:active {
+             box-shadow: inset 3px 3px 6px #cc7000,
+                         inset -3px -3px 6px #ffaa00;
+         }
+
+        /* Style for the welcome text */
+        .welcome-text {
+            font-family: 'Inter', sans-serif; /* Use Inter font */
+            color: #cccccc; /* Match portfolio paragraph color */
+            text-align: center;
+            margin-bottom: 2rem; /* Space below the welcome text */
+            font-size: 1.1em; /* Slightly larger font */
+            max-width: 600px; /* Limit width for readability */
+            line-height: 1.6; /* Improve readability */
+            font-weight: 400; /* Inter Regular - Matches portfolio paragraphs */
+            transition: color 0.3s ease; /* Smooth transition */
+        }
+
+        .game-wrapper {
+            display: flex; /* Use flexbox for horizontal layout */
+            flex-direction: column; /* Stack vertically by default */
+            align-items: center;
+            gap: 2rem; /* Gap between sections */
+            max-width: 900px; /* Increased max width for horizontal layout */
+            width: 100%;
+            padding: 1rem; /* Padding around the wrapper */
+             flex-grow: 1; /* Allow game content to take up vertical space */
+             justify-content: center; /* Center game content vertically */
+        }
+
+        @media (min-width: 768px) { /* Medium screens and up */
+            .game-wrapper {
+                flex-direction: row; /* Arrange horizontally on medium screens and up */
+                align-items: flex-start; /* Align items to the top */
+            }
+        }
+
+        .game-info-container {
+             /* Applying dark neumorphic styles */
+             background: #1a1a1a; /* Match dark background */
+             box-shadow: 6px 6px 12px #0d0d0d,
+                         -6px -6px 12px #272727;
+            padding: 2rem; /* Increased padding */
+            border-radius: 20px; /* Rounded corners */
+            text-align: center;
+            width: 100%; /* Take full width on small screens */
+             flex: 1; /* Allow this section to grow */
+             position: relative; /* Needed for absolute positioning of toggle button and animation */
+             transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+             overflow: hidden; /* Hide animation when outside container */
+        }
+
+         @media (min-width: 768px) { /* Medium screens and up */
+            .game-info-container {
+                width: auto; /* Auto width based on content/flex */
+                 max-width: 400px; /* Limit max width even when horizontal */
+            }
+         }
+
+
+        .game-keyboard-container {
+             /* Applying dark neumorphic styles */
+             background: #1a1a1a; /* Match dark background */
+             box-shadow: 6px 6px 12px #0d0d0d,
+                         -6px -6px 12px #272727;
+            padding: 2rem; /* Increased padding */
+            border-radius: 20px; /* Rounded corners */
+            text-align: center;
+            width: 100%; /* Take full width on small screens */
+             flex: 1; /* Allow this section to grow */
+             transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+        }
+
+         @media (min-width: 768px) { /* Medium screens and up */
+            .game-keyboard-container {
+                width: auto; /* Auto width based on content/flex */
+                 max-width: 400px; /* Limit max width even when horizontal */
+            }
+         }
+
+
+        /* Specific font for heading, intro text, and attempts */
+        h1, #introText, #guesses {
+            font-family: 'Inter', sans-serif; /* Using Inter font */
+        }
+
+        h1 {
+            color: #f0f0f0; /* Match portfolio heading color */
+            margin-bottom: 0.5rem; /* Reduced space below heading */
+            font-weight: 700; /* Inter Bold */
+            transition: color 0.3s ease; /* Smooth transition */
+             font-size: 1.8em; /* Increased base font size */
+        }
+
+         /* Responsive font size for heading */
+        @media (min-width: 640px) { /* Small screens and up */
+            h1 {
+                font-size: 2em; /* Slightly larger on small screens */
+            }
+        }
+
+        @media (min-width: 768px) { /* Medium screens and up */
+            h1 {
+                font-size: 2.2em; /* Even larger on medium screens and up */
+            }
+        }
+
+
+        p {
+             color: #cccccc; /* Match portfolio paragraph color */
+             margin-bottom: 1.5rem; /* Increased spacing */
+             font-weight: 400; /* Inter Regular */
+             transition: color 0.3s ease; /* Smooth transition */
+        }
+
+         #introText {
+             font-weight: 400; /* Inter Regular */
+             margin-bottom: 2rem; /* Added more space below intro text */
+         }
+
+         #guesses {
+             margin-top: 0.5rem; /* Keep original margin-top */
+             font-weight: 400; /* Inter Regular */
+         }
+
+
+        .word-display {
+            height: auto; /* Allow height to adjust based on content */
+            min-height: 3.5rem; /* Ensure minimum height */
+            line-height: 1.5; /* Adjust line height for wrapping */
+            border: none; /* Remove border */
+            border-radius: 0.75rem; /* More rounded */
+            text-align: center;
+            font-size: 1.8em; /* Larger font size */
+            font-weight: 700; /* Inter Bold */
+            color: #00ff8c; /* Vibrant green text color */
+            /* Applying dark neumorphic inset styles */
+            background: #1a1a1a; /* Match dark background */
+            box-shadow: inset 4px 4px 8px #0d0d0d,
+                        inset -4px -4px 8px #272727;
+            overflow-wrap: break-word; /* Allow long words to break and wrap */
+            word-wrap: break-word; /* Fallback for older browsers */
+            white-space: normal; /* Allow text to wrap normally */
+            display: flex; /* Use flexbox for centering */
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem; /* Increased spacing */
+            transition: color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+            padding: 1rem; /* Increased padding to prevent text touching edges */
+            letter-spacing: 0.3rem; /* Reduced letter spacing slightly */
+        }
+
+        /* Responsive font size and letter spacing for word display */
+        @media (min-width: 640px) { /* Small screens and up */
+            .word-display {
+                font-size: 2em;
+                min-height: 4rem;
+                letter-spacing: 0.5rem; /* Restore original spacing on larger screens */
+            }
+        }
+
+        .incorrect-guesses {
+             margin-top: 1rem;
+             font-size: 0.9em;
+             color: #a0aec0; /* Match portfolio adjusted color for dark mode */
+             min-height: 1.5em; /* Ensure space even when empty */
+             font-weight: 400; /* Inter Regular */
+             transition: color 0.3s ease; /* Smooth transition */
+        }
+
+
+        /* Keyboard Layout */
+        .keyboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(40px, 1fr)); /* Responsive columns */
+            gap: 8px; /* Gap between buttons */
+            margin-bottom: 1.5rem; /* Space below keyboard */
+            width: 100%; /* Take full width */
+            max-width: 400px; /* Limit max width */
+            margin-left: auto;
+            margin-right: auto; /* Center the keyboard */
+        }
+
+        .keyboard-button {
+            padding: 0.8rem 0.5rem; /* Padding for smaller buttons */
+            font-size: 1em; /* Font size for letters */
+            font-weight: 500; /* Inter Medium */
+            border: none;
+            border-radius: 0.75rem; /* More rounded */
+            cursor: pointer;
+            transition: all 0.2s ease; /* Smooth transition for hover/active */
+            /* Applying dark neumorphic button styles */
+            background: #1a1a1a; /* Match dark background */
+            box-shadow: 4px 4px 8px #0d0d0d,
+                        -4px -4px 8px #272727;
+            color: #00ff8c; /* Vibrant green text color */
+            text-transform: uppercase; /* Uppercase letters */
+        }
+
+        .keyboard-button:hover {
+             box-shadow: 2px 2px 4px #0d0d0d,
+                        -2px -2px 4px #272727; /* Smaller shadow on hover */
+             color: #f0f0f0; /* Match portfolio heading color on hover */
+        }
+
+        .keyboard-button:active {
+             box-shadow: inset 2px 2px 4px #0d0d0d,
+                        inset -2px -2px 4px #272727; /* Inset shadow on active (pressed) */
+             color: #ffffff; /* Lighter color when pressed */
+        }
+
+         .message {
+             margin-top: 1.5rem; /* Increased spacing */
+             font-size: 1.1em; /* Slightly larger font */
+             font-weight: 600; /* Inter Semi-bold */
+             min-height: 1.5em; /* Ensure space */
+             transition: color 0.3s ease; /* Smooth transition */
+         }
+
+         /* Colors for messages */
+         .message.text-green-600 { color: #4ade80; } /* Tailwind green-400 for dark mode */
+         .message.text-orange-600 { color: #fb923c; } /* Tailwind orange-400 for dark mode */
+         .message.text-red-600 { color: #f87171; } /* Tailwind red-400 for dark mode */
+
+
+         .attempts-display {
+             margin-top: 0.5rem;
+             color: #a0aec0; /* Match portfolio adjusted color for dark mode */
+             font-size: 0.9em;
+             font-weight: 400; /* Inter Regular */
+             transition: color 0.3s ease; /* Smooth transition */
+         }
+
+
+        .restart-button {
+            width: 100%;
+            /* Applying dark neumorphic button styles */
+            background: #1a1a1a; /* Match dark background */
+            box-shadow: 4px 4px 8px #0d0d0d,
+                        -4px -4px 8px #272727;
+            color: #00ff8c; /* Vibrant green text color */
+            padding: 0.75rem;
+            border-radius: 0.75rem; /* More rounded */
+            margin-top: 1.5rem; /* Increased spacing */
+            transition: background-color 0.2s ease, box-shadow 0.2s ease, color 0.3s ease; /* Smooth transition */
+             font-weight: 600; /* Inter Semi-bold */
+        }
+        .restart-button:hover {
+            background-color: #222; /* Slightly lighter dark */
+             box-shadow: 2px 2px 4px #0d0d0d,
+                        -2px -2px 4px #272727; /* Smaller shadow */
+        }
+         .restart-button:active {
+             background-color: #333; /* Even lighter dark */
+              box-shadow: inset 2px 2px 4px #0d0d0d,
+                        inset -2px -5px 4px #272727; /* Inset shadow */
+         }
+
+          /* Change Word Button */
+         .change-word-button {
+            width: 100%;
+             /* Applying dark neumorphic button styles */
+            background: #1a1a1a; /* Match dark background */
+            box-shadow: 4px 4px 8px #0d0d0d,
+                        -4px -4px 8px #272727;
+            color: #00ff8c; /* Vibrant green text color */
+            padding: 0.75rem;
+            border-radius: 0.75rem; /* More rounded */
+            margin-top: 1rem; /* Space above */
+            margin-bottom: 1.5rem; /* Space below */
+            transition: background-color 0.2s ease, box-shadow 0.2s ease, color 0.3s ease; /* Smooth transition */
+             font-weight: 600; /* Inter Semi-bold */
+         }
+         .change-word-button:hover {
+            background-color: #222; /* Slightly lighter dark */
+             box-shadow: 2px 2px 4px #0d0d0d,
+                        -2px -2px 4px #272727; /* Smaller shadow */
+         }
+         .change-word-button:active {
+             background-color: #333; /* Even lighter dark */
+              box-shadow: inset 2px 2px 4px #0d0d0d,
+                        inset -2px -5px 4px #272727; /* Inset shadow */
+         }
+
+
+         /* Theme Toggle Button */
+         .theme-toggle-button {
+             position: absolute;
+             top: 1rem;
+             right: 1rem;
+             background-color: transparent;
+             border: none;
+             cursor: pointer;
+             font-size: 1.5em;
+             color: #cccccc; /* Match portfolio paragraph color */
+             transition: color 0.3s ease;
+             z-index: 10; /* Ensure it's above other elements */
+             display: flex; /* Use flex to center icon */
+             align-items: center;
+             justify-content: center;
+             width: 2.5rem; /* Set a fixed size for better touch target */
+             height: 2.5rem;
+             border-radius: 50%; /* Make it round */
+             /* Applying dark neumorphic shadow */
+             box-shadow: 3px 3px 7px #0d0d0d,
+                        -3px -3px 7px #272727;
+         }
+
+         .theme-toggle-button:hover {
+             color: #f0f0f0; /* Darker color on hover */
+             box-shadow: 1px 1px 3px #0d0d0d,
+                        -1px -1px 3px #272727; /* Smaller shadow on hover */
+         }
+
+         .theme-toggle-button:active {
+             box-shadow: inset 2px 2px 5px #0d0d0d,
+                        inset -2px -2px 5px #272727; /* Inset shadow on active */
+         }
+
+
+         /* Dark Mode Styles (More Realistic Black Theme) - Removed as base is now dark */
+         /*
+         body.dark-mode {
+             background-color: #181818;
+         }
+         */
+
+         /* Adjust dark mode classes to apply styles when body has dark-mode (which is the base now) */
+         body.dark-mode .welcome-text {
+             color: #cccccc; /* Base color */
+         }
+
+         body.dark-mode .game-info-container,
+         body.dark-mode .game-keyboard-container {
+             background-color: #1a1a1a; /* Base color */
+             box-shadow: 6px 6px 12px #0d0d0d,
+                        -6px -6px 12px #272727; /* Base shadow */
+         }
+
+         body.dark-mode h1 {
+             color: #f0f0f0; /* Base color */
+         }
+
+         body.dark-mode p {
+             color: #cccccc; /* Base color */
+         }
+
+         body.dark-mode .word-display {
+             background-color: #1a1a1a; /* Base color */
+             color: #00ff8c; /* Base color */
+             box-shadow: inset 4px 4px 8px #0d0d0d,
+                        inset -4px -4px 8px #272727; /* Base inset shadow */
+         }
+
+         body.dark-mode .keyboard-button {
+             background-color: #1a1a1a; /* Base color */
+             color: #00ff8c; /* Base color */
+             box-shadow: 4px 4px 8px #0d0d0d,
+                        -4px -4px 8px #272727; /* Base shadow */
+         }
+
+         body.dark-mode .keyboard-button:hover {
+             box-shadow: 2px 2px 4px #0d0d0d,
+                        -2px -2px 4px #272727; /* Base hover shadow */
+             color: #f0f0f0; /* Base hover color */
+         }
+
+         body.dark-mode .keyboard-button:active {
+              box-shadow: inset 2px 2px 4px #0d0d0d,
+                        inset -2px -2px 4px #272727; /* Base active shadow */
+              color: #ffffff; /* Base active color */
+         }
+
+
+         .dark-mode .message {
+             /* Message colors remain the same for consistency (green/orange/red) */
+         }
+
+         body.dark-mode .attempts-display,
+         body.dark-mode .incorrect-guesses {
+             color: #a0aec0; /* Base color */
+         }
+
+         body.dark-mode .restart-button {
+            background-color: #1a1a1a; /* Base color */
+            color: #00ff8c; /* Base color */
+            box-shadow: 4px 4px 8px #0d0d0d,
+                        -4px -4px 8px #272727; /* Base shadow */
+         }
+         body.dark-mode .restart-button:hover {
+             background-color: #222; /* Base hover color */
+             box-shadow: 2px 2px 4px #0d0d0d,
+                        -2px -2px 4px #272727; /* Base hover shadow */
+         }
+         body.dark-mode .restart-button:active {
+             background-color: #333; /* Base active color */
+              box-shadow: inset 2px 2px 4px #0d0d0d,
+                        inset -2px -5px 4px #272727; /* Inset shadow */
+         }
+
+          body.dark-mode .change-word-button {
+            background-color: #1a1a1a; /* Base color */
+            color: #00ff8c; /* Base color */
+            box-shadow: 4px 4px 8px #0d0d0d,
+                        -4px -4px 8px #272727; /* Base shadow */
+         }
+         body.dark-mode .change-word-button:hover {
+             background-color: #222; /* Base hover color */
+             box-shadow: 2px 2px 4px #0d0d0d,
+                        -2px -2px 4px #272727; /* Base hover shadow */
+         }
+         body.dark-mode .change-word-button:active {
+             background-color: #333; /* Base active color */
+              box-shadow: inset 2px 2px 4px #0d0d0d,
+                        inset -2px -5px 4px #272727; /* Inset shadow */
+         }
+
+
+         /* Theme Toggle Button - Base styles are now the dark mode styles */
+         .theme-toggle-button {
+             position: absolute;
+             top: 1rem;
+             right: 1rem;
+             background-color: transparent;
+             border: none;
+             cursor: pointer;
+             font-size: 1.5em;
+             color: #cccccc; /* Default icon color (light) */
+             transition: color 0.3s ease;
+             z-index: 10; /* Ensure it's above other elements */
+             display: flex; /* Use flex to center icon */
+             align-items: center;
+             justify-content: center;
+             width: 2.5rem; /* Set a fixed size for better touch target */
+             height: 2.5rem;
+             border-radius: 50%; /* Make it round */
+             box-shadow: 3px 3px 7px #0d0d0d,
+                        -3px -3px 7px #272727; /* Dark neumorphic shadow */
+         }
+
+         .theme-toggle-button:hover {
+             color: #f0f0f0; /* Lighter color on hover */
+             box-shadow: 1px 1px 3px #0d0d0d,
+                        -1px -1px 3px #272727; /* Smaller shadow on hover */
+         }
+
+         .theme-toggle-button:active {
+             box-shadow: inset 2px 2px 5px #0d0d0d,
+                        inset -2px -2px 5px #272727; /* Inset shadow on active */
+         }
+
+         /* Styles for light mode when body does NOT have dark-mode class */
+         body:not(.dark-mode) .theme-toggle-button {
+             color: #475569; /* Default icon color (dark) */
+             box-shadow: 3px 3px 7px #bebebe,
+                        -3px -3px 7px #ffffff; /* Soft shadow for the button itself */
+         }
+
+         body:not(.dark-mode) .theme-toggle-button:hover {
+             color: #1e293b; /* Darker color on hover */
+             box-shadow: 1px 1px 3px #bebebe,
+                        -1px -1px 3px #ffffff; /* Smaller shadow on hover */
+         }
+
+         body:not(.dark-mode) .theme-toggle-button:active {
+             box-shadow: inset 2px 2px 5px #bebebe,
+                        inset -2px -2px 5px #ffffff; /* Inset shadow on active */
+         }
+
+
+         /* Winning Word Animation */
+         .winning-word-animation {
+             position: absolute;
+             bottom: 2rem; /* Start from below the word display */
+             left: 50%;
+             transform: translateX(-50%); /* Center horizontally */
+             font-size: 2em; /* Larger font size for animation */
+             font-weight: 700; /* Bold font */
+             color: #4ade80; /* Vibrant green color for winning */
+             opacity: 0; /* Start invisible */
+             pointer-events: none; /* Don't block clicks */
+             z-index: 5; /* Below the theme toggle, above other elements */
+             font-family: 'Inter', sans-serif; /* Use Inter font for animation */
+             white-space: nowrap; /* Prevent wrapping */
+         }
+
+         /* Keyframes for the firing animation */
+         @keyframes fireUpWord {
+             0% {
+                 opacity: 0;
+                 transform: translate(-50%, 0); /* Start position (centered horizontally, at bottom) */
+             }
+             50% {
+                 opacity: 1;
+                 transform: translate(-50%, -80px); /* Move up and become visible */
+             }
+             100% {
+                 opacity: 0;
+                 transform: translate(-50%, -150px); /* Continue moving up and fade out */
+             }
+         }
+
+         /* Class to apply the animation */
+         .winning-word-animation.animate {
+             animation: fireUpWord 1.5s ease-out forwards; /* Apply the animation */
+         }
+
+         /* Color for the winning word animation (already matches dark theme) */
+         /*
+         body.dark-mode .winning-word-animation {
+             color: #4ade80;
+         }
+         */
+
+
+         /* Link to Home button */
+         .home-button {
+            /* Removed absolute positioning */
+            /* position: absolute; */
+            /* top: 1rem; */
+            /* left: 1rem; */
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5em;
+            color: #cccccc; /* Default icon color (light) */
+            transition: color 0.3s ease;
+            z-index: 10; /* Ensure it's above other elements */
+            display: flex; /* Use flex to center icon */
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem; /* Set a fixed size for better touch target */
+            height: 2.5rem;
+            border-radius: 50%; /* Make it round */
+             /* Applying dark neumorphic shadow */
+            box-shadow: 3px 3px 7px #0d0d0d,
+                       -3px -3px 7px #272727;
+         }
+
+         .home-button:hover {
+             color: #f0f0f0; /* Lighter color on hover */
+             box-shadow: 1px 1px 3px #0d0d0d,
+                        -1px -1px 3px #272727; /* Smaller shadow on hover */
+         }
+
+         .home-button:active {
+             box-shadow: inset 2px 2px 5px #0d0d0d,
+                        inset -2px -2px 5px #272727; /* Inset shadow on active */
+         }
+
+          /* Styles for light mode when body does NOT have dark-mode class */
+         body:not(.dark-mode) .home-button {
+             color: #475569; /* Default icon color (dark) */
+             box-shadow: 3px 3px 7px #bebebe,
+                        -3px -3px 7px #ffffff; /* Soft shadow for the button itself */
+         }
+         body:not(.dark-mode) .home-button:hover {
+             color: #1e293b; /* Darker color on hover */
+             box-shadow: 1px 1px 3px #bebebe,
+                        -1px -1px 3px #ffffff; /* Smaller shadow on hover */
+         }
+
+         body:not(.dark-mode) .home-button:active {
+             box-shadow: inset 2px 2px 5px #bebebe,
+                        inset -2px -2px 5px #ffffff; /* Inset shadow on active */
+         }
+
+
+         /* Category Selection */
+         .category-selection {
+             margin-bottom: 1.5rem;
+             text-align: center;
+         }
+
+         .category-selection label {
+             font-family: 'Inter', sans-serif; /* Use Inter font */
+             font-weight: 600;
+             color: #cccccc; /* Match portfolio paragraph color */
+             margin-right: 0.5rem;
+             transition: color 0.3s ease;
+         }
+
+         .category-selection select {
+             padding: 0.5rem;
+             border-radius: 0.5rem;
+             border: none;
+             /* Applying dark neumorphic inset styles */
+             background: #1a1a1a; /* Match dark background */
+             box-shadow: inset 4px 4px 8px #0d0d0d,
+                         inset -4px -4px 8px #272727;
+             font-family: 'Inter', sans-serif; /* Use Inter font */
+             color: #00ff8c; /* Vibrant green text color */
+             cursor: pointer;
+             transition: all 0.2s ease;
+         }
+
+         .category-selection select:focus {
+             outline: none;
+             box-shadow: inset 2px 2px 4px #0d0d0d,
+                         inset -2px -2px 4px #272727; /* Smaller inset shadow on focus */
+         }
+
+         /* Dark Mode Category Selection - Removed as base is now dark */
+         /*
+         .dark-mode .category-selection label {
+             color: #bbb;
+         }
+
+         .dark-mode .category-selection select {
+             background-color: #222;
+             color: #eee;
+             box-shadow: inset 2px 2px 5px #111,
+                         inset -2px -2px 5px #333;
+         }
+         .dark-mode .category-selection select:focus {
+              box-shadow: inset 1px 1px 3px #111,
+                         inset -1px -1px 3px #333;
+         }
+         */
+
+
+        /* Header styles to fix icon positioning */
+         header {
+             width: 100%; /* Ensure header takes full width */
+             max-width: 1200px; /* Match main content container max width */
+             margin: 0 auto; /* Center the header */
+             padding: 1.5rem; /* Adjust padding */
+             display: flex;
+             flex-direction: row; /* Always keep items in a row */
+             align-items: center; /* Vertically align items */
+             justify-content: space-between; /* Space out game icon and nav */
+             flex-wrap: wrap; /* Allow header items to wrap if needed */
+             box-sizing: border-box; /* Include padding in width */
+             gap: 1rem; /* Add gap between header items */
+         }
+
+         header .header-title { /* Use a class for the title/icon container */
+             flex-shrink: 0; /* Prevent logo/icon from shrinking */
+             display: flex; /* Use flexbox to center icon/text if needed */
+             align-items: center;
+             justify-content: flex-start; /* Align icon to the left within its container */
+         }
+
+         header nav {
+             margin-bottom: 0; /* Remove bottom margin from nav */
+             display: flex;
+             flex-direction: row; /* Keep ul in a row */
+             align-items: center; /* Vertically align ul */
+             flex-grow: 1;
+             justify-content: flex-end; /* Push nav contents to the right */
+             min-width: 0;
+             flex-wrap: wrap; /* Allow ul to wrap */
+             gap: 10px; /* Add gap between nav items */
+         }
+
+         header nav ul {
+             display: flex;
+             justify-content: flex-end; /* Push buttons to the right within the ul */
+             flex-wrap: wrap;
+             gap: 10px; /* Smaller gap for wrapped links */
+             margin-right: 0; /* Remove right margin */
+             min-width: 0;
+             flex-shrink: 0;
+             margin-bottom: 0; /* Remove bottom margin */
+         }
+
+         header nav ul li {
+              margin-bottom: 0;
+              flex-basis: auto;
+              width: auto;
+         }
+
+         /* Responsive adjustments for header on medium and larger screens */
+         @media (min-width: 768px) {
+              header {
+                  padding: 1.5rem 2rem; /* Adjust padding */
+                  gap: 1.5rem; /* Adjust gap for horizontal layout */
+              }
+
+              header .header-title { /* Use a class for the title/icon container */
+                   justify-content: flex-start; /* Ensure left alignment */
+              }
+
+              header nav {
+                  justify-content: flex-end; /* Push nav contents to the right */
+                  gap: 1.5rem; /* Add gap between nav items */
+              }
+
+              header nav ul {
+                  gap: 1.5rem; /* Add space between nav links */
+              }
+         }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-title">
+             </div>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="neumorphic-button"><i class="ph ph-house home-icon"></i></a></li>
+                 <li><a href="guess_number.html" class="neumorphic-button"><i class="ph ph-game-controller word-game-icon"></i></a></li>
+                </ul>
+            </nav>
+    </header>
+
+    <p class="welcome-text">
+        Welcome to the Guess the Word game! Try to guess the secret word by guessing one letter at a time.
+        You have a limited number of incorrect guesses. Good luck!
+    </p>
+
+    <div class="game-wrapper">
+        <div class="game-info-container" id="gameInfoContainer">
+
+            <h1 class="text-xl sm:text-2xl font-bold">Guess the Word!</h1>
+
+            <div class="category-selection">
+                <label for="categorySelect">Choose a Category:</label>
+                <select id="categorySelect">
+                    </select>
+            </div>
+
+            <button id="changeWordButton" class="change-word-button">Change Word</button>
+
+
+            <div id="wordDisplay" class="word-display text-xl sm:text-2xl"></div>
+
+             <div id="winningWordAnimation" class="winning-word-animation"></div>
+
+
+            <p id="message" class="message text-base sm:text-lg"></p>
+            <p id="guesses" class="attempts-display text-sm sm:text-base"></p>
+            <p id="incorrectGuesses" class="incorrect-guesses"></p>
+
+            <button id="restartGame" class="restart-button hidden text-base sm:text-lg">Restart Game</button>
+        </div>
+
+        <div class="game-keyboard-container" id="gameKeyboardContainer">
+             <div id="keyboard" class="keyboard-grid">
+                 </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for the word guessing game logic and theme toggle
+
+        let allWordCategories = []; // Array to hold all categories and words from JSON
+        let currentCategoryWords = []; // Array to hold words for the selected category
+        let secretWord; // The word the user needs to guess
+        let maskedWord; // The word displayed with underscores
+        let incorrectAttempts; // Counter for incorrect guesses
+        let maxIncorrectAttempts = 6; // Maximum allowed incorrect guesses
+        let guessedLetters; // Array to store guessed letters
+
+        const wordDisplay = document.getElementById('wordDisplay');
+        const messageElement = document.getElementById('message');
+        const guessesElement = document.getElementById('guesses');
+        const incorrectGuessesElement = document.getElementById('incorrectGuesses');
+        const restartButton = document.getElementById('restartGame');
+        const themeToggle = document.getElementById('themeToggle'); // Keeping theme toggle for potential future use or removal
+        const body = document.body; // Reference to the body element
+        const gameInfoContainer = document.getElementById('gameInfoContainer'); // Reference to the info container
+        const gameKeyboardContainer = document.getElementById('gameKeyboardContainer'); // Reference to the keyboard container
+        const winningWordAnimationElement = document.getElementById('winningWordAnimation'); // Element for the animation
+        const keyboard = document.getElementById('keyboard'); // Reference to the keyboard container
+        const categorySelect = document.getElementById('categorySelect'); // Reference to the category dropdown
+        const changeWordButton = document.getElementById('changeWordButton'); // Reference to the Change Word button
+
+
+        // Function to fetch words from JSON
+        async function fetchWords() {
+            try {
+                const response = await fetch('words.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                allWordCategories = await response.json();
+                 populateCategories(); // Populate dropdown after fetching
+                 // Select the first category by default and start the game
+                 if (allWordCategories.length > 0) {
+                     categorySelect.value = allWordCategories[0].category;
+                     updateCategoryWords(); // Set initial category words
+                     startGame();
+                 } else {
+                     messageElement.textContent = "Error: No word categories found in words.json.";
+                     messageElement.className = 'message text-base sm:text-lg text-red-600';
+                 }
+
+            } catch (error) {
+                console.error('Error fetching words:', error);
+                messageElement.textContent = 'Error loading word list. Please try again later.';
+                messageElement.className = 'message text-base sm:text-lg text-red-600';
+                 // Disable game elements if words cannot be loaded
+                 disableGame();
+            }
+        }
+
+        // Function to populate the category dropdown
+        function populateCategories() {
+            categorySelect.innerHTML = ''; // Clear existing options
+            allWordCategories.forEach(categoryData => {
+                const option = document.createElement('option');
+                option.value = categoryData.category;
+                option.textContent = categoryData.category;
+                categorySelect.appendChild(option);
+            });
+        }
+
+        // Function to update the current category words based on selection
+        function updateCategoryWords() {
+            const selectedCategory = categorySelect.value;
+            const categoryData = allWordCategories.find(cat => cat.category === selectedCategory);
+            if (categoryData) {
+                currentCategoryWords = categoryData.words;
+            } else {
+                currentCategoryWords = []; // Fallback to empty if category not found
+            }
+        }
+
+
+        // Function to create the keyboard buttons
+        function createKeyboard() {
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            keyboard.innerHTML = ''; // Clear existing buttons
+
+            for (let i = 0; i < letters.length; i++) {
+                const button = document.createElement('button');
+                button.classList.add('keyboard-button');
+                button.textContent = letters[i];
+                button.addEventListener('click', handleLetterClick);
+                keyboard.appendChild(button);
+            }
+        }
+
+        // Function to handle a letter button click
+        function handleLetterClick(event) {
+            const guessedLetter = event.target.textContent; // Get the letter from the button
+
+            // Disable the clicked button immediately
+            event.target.disabled = true;
+
+            handleGuess(guessedLetter); // Pass the guessed letter to the main guess handling function
+        }
+
+
+        // Function to start a new game (resets everything)
+        function startGame() {
+             if (currentCategoryWords.length === 0) {
+                 messageElement.textContent = "No words available for the selected category.";
+                 messageElement.className = 'message text-base sm:text-lg text-red-600';
+                 disableGame();
+                 return;
+             }
+            // Choose a random word from the current category
+            secretWord = currentCategoryWords[Math.floor(Math.random() * currentCategoryWords.length)];
+            maskedWord = '_'.repeat(secretWord.length); // Initialize masked word with underscores
+            incorrectAttempts = 0; // Reset incorrect attempts
+            guessedLetters = []; // Clear guessed letters
+
+            // Reset the display
+            wordDisplay.textContent = maskedWord.split('').join(' '); // Display with spaces
+            messageElement.textContent = '';
+            guessesElement.textContent = `Incorrect Guesses Left: ${maxIncorrectAttempts - incorrectAttempts}`;
+            incorrectGuessesElement.textContent = 'Incorrect Guesses: ';
+            restartButton.classList.add('hidden'); // Hide restart button
+            // Reset message class - remove specific color classes
+            messageElement.className = 'message text-base sm:text-lg';
+
+             // Ensure animation element is hidden and reset
+            winningWordAnimationElement.textContent = '';
+            winningWordAnimationElement.classList.remove('animate');
+
+            createKeyboard(); // Recreate the keyboard for a new game
+
+            // Enable game elements
+            enableGame();
+
+        }
+
+        // Function to change the word without changing the category
+        function changeWord() {
+             if (currentCategoryWords.length === 0) {
+                 messageElement.textContent = "No words available for the selected category.";
+                 messageElement.className = 'message text-base sm:text-lg text-red-600';
+                 disableGame();
+                 return;
+             }
+             // Choose a new random word from the current category
+             let newSecretWord = secretWord;
+             // Ensure the new word is different from the current one if possible
+             if (currentCategoryWords.length > 1) {
+                 while (newSecretWord === secretWord) {
+                     newSecretWord = currentCategoryWords[Math.floor(Math.random() * currentCategoryWords.length)];
+                 }
+             }
+             secretWord = newSecretWord;
+
+             maskedWord = '_'.repeat(secretWord.length); // Initialize masked word with underscores
+             incorrectAttempts = 0; // Reset incorrect attempts
+             guessedLetters = []; // Clear guessed letters
+
+             // Reset the display
+             wordDisplay.textContent = maskedWord.split('').join(' '); // Display with spaces
+             messageElement.textContent = '';
+             guessesElement.textContent = `Incorrect Guesses Left: ${maxIncorrectAttempts - incorrectAttempts}`;
+             incorrectGuessesElement.textContent = 'Incorrect Guesses: ';
+             restartButton.classList.add('hidden'); // Hide restart button
+             // Reset message class - remove specific color classes
+             messageElement.className = 'message text-base sm:text-lg';
+
+             // Ensure animation element is hidden and reset
+            winningWordAnimationElement.textContent = '';
+            winningWordAnimationElement.classList.remove('animate');
+
+             createKeyboard(); // Recreate the keyboard to enable all buttons
+
+             // Enable game elements
+             enableGame();
+        }
+
+
+        // Function to handle a letter guess (now accepts the letter directly)
+        function handleGuess(guess) {
+            // Validate input (already done by keyboard structure, but good for safety)
+            if (guess.length !== 1 || !/^[A-Z]$/.test(guess)) {
+                messageElement.textContent = 'Invalid input.'; // Should not happen with keyboard
+                messageElement.className = 'message text-base sm:text-lg text-red-600';
+                return;
+            }
+
+            // Check if letter has already been guessed (disabled button handles this visually)
+            if (guessedLetters.includes(guess)) {
+                 // This case should be less frequent with disabled buttons, but kept for logic
+                messageElement.textContent = `You already guessed the letter "${guess}".`;
+                messageElement.className = 'message text-base sm:text-lg text-orange-600';
+                return;
+            }
+
+            guessedLetters.push(guess); // Add the guessed letter to the list
+
+
+            // Check if the letter is in the secret word
+            if (secretWord.includes(guess)) {
+                messageElement.textContent = `Good guess! "${guess}" is in the word.`;
+                messageElement.className = 'message text-base sm:text-lg text-green-600';
+
+                // Update the masked word
+                let newMaskedWord = '';
+                for (let i = 0; i < secretWord.length; i++) {
+                    if (secretWord[i] === guess) {
+                        newMaskedWord += guess;
+                    } else {
+                        // Find the character in the current maskedWord string at index i
+                        // and append it to the newMaskedWord.
+                        // This is necessary because maskedWord is a string of underscores and correctly guessed letters.
+                         newMaskedWord += maskedWord[i];
+                    }
+                }
+                maskedWord = newMaskedWord;
+                wordDisplay.textContent = maskedWord.split('').join(' '); // Update display
+
+                // Check for win
+                if (!maskedWord.includes('_')) {
+                    messageElement.textContent = `Congratulations! You guessed the word "${secretWord}"!`;
+                    messageElement.className = 'message text-base sm:text-lg text-green-600';
+                    triggerWinningAnimation(secretWord); // Trigger the animation
+                    endGame(true);
+                }
+
+            } else {
+                messageElement.textContent = `Sorry, "${guess}" is not in the word.`;
+                messageElement.className = 'message text-base sm:text-lg text-orange-600';
+                incorrectAttempts++; // Increment incorrect attempts
+                guessesElement.textContent = `Incorrect Guesses Left: ${maxIncorrectAttempts - incorrectAttempts}`;
+                incorrectGuessesElement.textContent += guess + ' '; // Display incorrect guess
+
+                // Check for loss
+                if (incorrectAttempts >= maxIncorrectAttempts) {
+                    messageElement.textContent = `Game Over! The word was "${secretWord}".`;
+                    messageElement.className = 'message text-base sm:text-lg text-red-600';
+                    endGame(false);
+                }
+            }
+        }
+
+         // Function to trigger the winning word animation
+        function triggerWinningAnimation(word) {
+            winningWordAnimationElement.textContent = word; // Set the word
+            winningWordAnimationElement.classList.add('animate'); // Add the animation class
+
+            // Remove the animation class after the animation finishes
+            setTimeout(() => {
+                winningWordAnimationElement.classList.remove('animate');
+                winningWordAnimationElement.textContent = ''; // Clear the word
+            }, 1500); // Match the animation duration (1.5s)
+        }
+
+
+        // Function to end the game
+        function endGame(won) {
+             // Disable all keyboard buttons
+             const buttons = keyboard.querySelectorAll('button');
+             buttons.forEach(button => button.disabled = true);
+
+             restartButton.classList.remove('hidden'); // Show restart button
+             categorySelect.disabled = false; // Enable category selection after the game
+             changeWordButton.disabled = false; // Enable change word button
+        }
+
+        // Function to disable game elements (e.g., if words fail to load)
+        function disableGame() {
+             const buttons = keyboard.querySelectorAll('button');
+             buttons.forEach(button => button.disabled = true);
+             restartButton.classList.add('hidden');
+             categorySelect.disabled = true;
+             changeWordButton.disabled = true; // Disable change word button
+        }
+
+         // Function to enable game elements
+        function enableGame() {
+             const buttons = keyboard.querySelectorAll('button');
+             buttons.forEach(button => button.disabled = false);
+             categorySelect.disabled = false;
+             changeWordButton.disabled = false; // Enable change word button
+        }
+
+
+        // Function to toggle theme
+        function toggleTheme() {
+            body.classList.toggle('dark-mode');
+            // The base styles are now dark mode, so we toggle the light mode class
+            // gameInfoContainer.classList.toggle('dark-mode'); // Not needed with base dark mode
+            // gameKeyboardContainer.classList.toggle('dark-mode'); // Not needed with base dark mode
+
+
+            // Update local storage
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                // Show moon icon, hide sun icon
+                themeToggle.querySelector('.ph-moon').classList.remove('hidden');
+                themeToggle.querySelector('.ph-sun').classList.add('hidden');
+            } else {
+                localStorage.setItem('theme', 'light');
+                 // Show sun icon, hide moon icon
+                themeToggle.querySelector('.ph-sun').classList.remove('hidden');
+                 themeToggle.querySelector('.ph-moon').classList.add('hidden');
+            }
+        }
+
+        // Function to apply theme on page load
+        function applyTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode'); // Add dark-mode class to trigger dark styles (which are now base)
+                 // Show moon icon, hide sun icon
+                themeToggle.querySelector('.ph-moon').classList.remove('hidden');
+                themeToggle.querySelector('.ph-sun').classList.add('hidden');
+            } else {
+                 // Ensure light mode is applied if no preference or 'light' is saved
+                 body.classList.remove('dark-mode'); // Remove dark-mode class to trigger light styles
+                 // Show sun icon, hide moon icon
+                 themeToggle.querySelector('.ph-sun').classList.remove('hidden');
+                 themeToggle.querySelector('.ph-moon').classList.add('hidden');
+            }
+        }
+
+
+        // Add event listeners
+        restartButton.addEventListener('click', startGame);
+        // themeToggle.addEventListener('click', toggleTheme); // Theme toggle button is positioned absolutely now
+        categorySelect.addEventListener('change', function() {
+            updateCategoryWords(); // Update words list when category changes
+            startGame(); // Start a new game with the selected category
+        });
+        changeWordButton.addEventListener('click', changeWord); // Add event listener for Change Word button
+
+
+        // Fetch words and apply theme when the page loads
+        window.onload = function() {
+            applyTheme(); // Apply theme preference first
+            fetchWords(); // Fetch words and start the game after theme is applied
+        };
+
+    </script>
+</body>
+</html>
